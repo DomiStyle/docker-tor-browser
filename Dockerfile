@@ -1,4 +1,4 @@
-FROM jlesage/baseimage-gui:alpine-3.9-glibc
+FROM jlesage/baseimage-gui:ubuntu-16.04
 
 # Set environment variables
 ENV APP_NAME="Tor Browser" \
@@ -10,8 +10,10 @@ ENV APP_NAME="Tor Browser" \
 # Install Tor onion icon
 RUN install_app_icon.sh "https://github.com/DomiStyle/docker-tor-browser/raw/master/icon.png"
 
-# Add GPG support, bash and dependencies
-RUN apk add --no-cache gnupg bash file dbus-glib gtk+3.0
+# Add wget and Tor browser dependencies
+RUN apt-get update && \
+    apt-get install -y wget libdbus-glib-1-2 libgtk-3-0 && \
+    rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 WORKDIR /app
