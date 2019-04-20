@@ -1,4 +1,4 @@
-FROM jlesage/baseimage-gui:ubuntu-16.04
+FROM jlesage/baseimage-gui:ubuntu-18.04
 
 # Set environment variables
 ENV APP_NAME="Tor Browser" \
