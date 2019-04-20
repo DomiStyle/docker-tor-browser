@@ -2,9 +2,9 @@ FROM jlesage/baseimage-gui:ubuntu-16.04
 
 # Set environment variables
 ENV APP_NAME="Tor Browser" \
-    TOR_VERSION=8.0.6 \
-    TOR_BINARY=https://www.torproject.org/dist/torbrowser/8.0.6/tor-browser-linux64-8.0.6_en-US.tar.xz \
-    TOR_SIGNATURE=https://www.torproject.org/dist/torbrowser/8.0.6/tor-browser-linux64-8.0.6_en-US.tar.xz.asc \
+    TOR_VERSION=8.0.8 \
+    TOR_BINARY=https://www.torproject.org/dist/torbrowser/$TOR_VERSION/tor-browser-linux64-$TOR_VERSION_en-US.tar.xz \
+    TOR_SIGNATURE=https://www.torproject.org/dist/torbrowser/$TOR_VERSION/tor-browser-linux64-$TOR_VERSION_en-US.tar.xz.asc \
     TOR_FINGERPRINT=0x4E2C6E8793298290
 
 # Install Tor onion icon
