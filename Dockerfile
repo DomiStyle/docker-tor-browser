@@ -1,18 +1,19 @@
-FROM jlesage/baseimage-gui:ubuntu-16.04
+FROM jlesage/baseimage-gui:ubuntu-18.04
 
 # Set environment variables
 ENV APP_NAME="Tor Browser" \
     TOR_VERSION=8.5.5 \
     TOR_BINARY=https://www.torproject.org/dist/torbrowser/8.5.5/tor-browser-linux64-8.5.5_en-US.tar.xz \
     TOR_SIGNATURE=https://www.torproject.org/dist/torbrowser/8.5.5/tor-browser-linux64-8.5.5_en-US.tar.xz.asc \
-    TOR_FINGERPRINT=0xEF6E286DDA85EA2A4BA7DE684E2C6E8793298290
+    TOR_FINGERPRINT=0xEF6E286DDA85EA2A4BA7DE684E2C6E8793298290 \
+    DEBIAN_FRONTEND=noninteractive
 
 # Install Tor onion icon
 RUN install_app_icon.sh "https://github.com/DomiStyle/docker-tor-browser/raw/master/icon.png"
 
 # Add wget and Tor browser dependencies
 RUN apt-get update && \
-    apt-get install -y wget libdbus-glib-1-2 libgtk-3-0 && \
+    apt-get install -y wget gpg libdbus-glib-1-2 libgtk-3-0 && \
     rm -rf /var/lib/apt/lists/*
 
 # Set working directory
