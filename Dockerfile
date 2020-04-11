@@ -33,5 +33,8 @@ RUN tar --strip 1 -xvJf "${TOR_BINARY##*/}" && \
     chown -R ${USER_ID}:${GROUP_ID} /app && \
     rm "${TOR_BINARY##*/}" "${TOR_SIGNATURE##*/}"
 
+# Copy browser cfg
+COPY browser-cfg /browser-cfg
+
 # Add start script
 COPY startapp.sh /startapp.sh
