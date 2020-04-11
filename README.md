@@ -17,7 +17,7 @@ See the docker-compose [here](https://github.com/DomiStyle/docker-tor-browser/bl
 
 The web interface will be available on port 5800.
 
-## Configuration
+## Platform configuration
 
 No special configuration is necessary, however some recommended variables are available:
 
@@ -26,9 +26,19 @@ No special configuration is necessary, however some recommended variables are av
 | `DISPLAY_WIDTH` | Set the width of the virtual screen | ``1280`` | No |
 | `DISPLAY_HEIGHT` | Set the height of the virtual screen | ``768`` | No |
 | `KEEP_APP_RUNNING` | Automatically restarts the Tor browser if it exits | ``0`` | No |
-| `TZ` | `Set the time zone for the container | - | No |
+| `TZ` | Set the time zone for the container | - | No |
 
-**For advanced configuration options please take a look [here](https://github.com/jlesage/docker-baseimage-gui#environment-variables).**
+** For advanced configuration options please take a look [here](https://github.com/jlesage/docker-baseimage-gui#environment-variables).**
+
+## Browser configuration
+
+You may install the browser with your own configuration. Copy the template configuration to get started.
+If `mozilla.cfg` is available then it is used, otherwise no browser changes are made.
+```
+cd browser-cfg
+cp mozilla.cfg.template mozilla.cfg
+```
+** For more information on the available options: http://kb.mozillazine.org/About:config_entries
 
 ## Volumes
 
