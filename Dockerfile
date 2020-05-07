@@ -2,9 +2,9 @@ FROM jlesage/baseimage-gui:ubuntu-18.04
 
 # Set environment variables
 ENV APP_NAME="Tor Browser" \
-    TOR_VERSION=9.0.9 \
-    TOR_BINARY=https://www.torproject.org/dist/torbrowser/9.0.9/tor-browser-linux64-9.0.9_en-US.tar.xz \
-    TOR_SIGNATURE=https://www.torproject.org/dist/torbrowser/9.0.9/tor-browser-linux64-9.0.9_en-US.tar.xz.asc \
+    TOR_VERSION=9.0.10 \
+    TOR_BINARY=https://www.torproject.org/dist/torbrowser/9.0.10/tor-browser-linux64-9.0.10_en-US.tar.xz \
+    TOR_SIGNATURE=https://www.torproject.org/dist/torbrowser/9.0.10/tor-browser-linux64-9.0.10_en-US.tar.xz.asc \
     TOR_FINGERPRINT=0xEF6E286DDA85EA2A4BA7DE684E2C6E8793298290 \
     DEBIAN_FRONTEND=noninteractive
 
