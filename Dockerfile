@@ -1,5 +1,8 @@
 FROM jlesage/baseimage-gui:ubuntu-18.04
 
+RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ bionic main" >>  /etc/apt/sources.list
+RUN > /var/lib/dpkg/statoverride
+
 # Set environment variables
 ENV APP_NAME="Tor Browser" \
     TOR_VERSION=10.0.1 \
@@ -13,7 +16,7 @@ RUN install_app_icon.sh "https://github.com/DomiStyle/docker-tor-browser/raw/mas
 
 # Add wget and Tor browser dependencies
 RUN apt-get update && \
-    apt-get install -y wget gpg libdbus-glib-1-2 libgtk-3-0 && \
+    apt-get install -y wget gpg libdbus-glib-1-2 libgtk-3-0 pulseaudio vlc && \
     rm -rf /var/lib/apt/lists/*
 
 # Set working directory
@@ -38,3 +41,4 @@ COPY browser-cfg /browser-cfg
 
 # Add start script
 COPY startapp.sh /startapp.sh
+
