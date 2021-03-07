@@ -4,7 +4,7 @@ RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ bionic main" >>  /etc/apt/sou
 RUN > /var/lib/dpkg/statoverride
 
 # Set environment variables
-ENV TOR_VERSION=10.0.12
+ENV TOR_VERSION=10.0.13
 ENV APP_NAME="Tor Browser ${TOR_VERSION}" \
     TOR_BINARY=https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-browser-linux64-${TOR_VERSION}_en-US.tar.xz \
     TOR_SIGNATURE=https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-browser-linux64-${TOR_VERSION}_en-US.tar.xz.asc \
