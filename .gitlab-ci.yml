@@ -1,29 +1,29 @@
-# Build a Docker image with CI/CD and push to the Docker Hub
-# Docker-in-Docker documentation: https://docs.gitlab.com/ee/ci/docker/using_docker_build.html
-#
-# This template uses one generic job with conditional builds
-# for the default branch and all other (MR) branches.
+# Build a Docker image for branches and tags
 
 docker-build:
-  # Use the official docker image.
   image: docker:latest
   stage: build
   services:
     - docker:dind
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-  # Default branch leaves tag empty (= latest tag)
-  # All other branches are tagged with the escaped branch name (commit ref slug)
+  # Tagging images in following priority:
+  # * Commit tag name
+  # * latest if on master
+  # * Commit reference if on different branch
   script:
     - |
-      if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
-        tag=""
-        echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = 'latest'"
+      if [ -n "$CI_COMMIT_TAG" ]; then
+        tag="$CI_COMMIT_TAG"
+      elif [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
+        tag="latest"
       else
-        tag=":$CI_COMMIT_REF_SLUG"
-        echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
+        tag="$CI_COMMIT_REF_SLUG"
       fi
-    - docker build --pull -t "$CI_REGISTRY_IMAGE${tag}" .
+
+      echo "Running on branch '$CI_COMMIT_BRANCH'"
+      echo "Tagging as '$tag'"
+    - docker build --pull -t "$CI_REGISTRY_IMAGE:${tag}" .
     - docker push "$CI_REGISTRY_IMAGE${tag}"
   # Run this job in a branch where a Dockerfile exists
   rules:
