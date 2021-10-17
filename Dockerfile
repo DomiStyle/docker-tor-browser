@@ -16,7 +16,7 @@ RUN install_app_icon.sh "https://github.com/DomiStyle/docker-tor-browser/raw/mas
 
 # Add wget and Tor browser dependencies
 RUN apt-get update && \
-    apt-get install -y wget gpg libdbus-glib-1-2 libgtk-3-0 pulseaudio vlc && \
+    apt-get install -y wget curl gpg libdbus-glib-1-2 libgtk-3-0 pulseaudio vlc && \
     rm -rf /var/lib/apt/lists/*
 
 # Set working directory
@@ -27,7 +27,7 @@ RUN wget $TOR_BINARY && \
     wget $TOR_SIGNATURE
 
 # Verify GPG signature
-RUN gpg --auto-key-locate nodefault,wkd --locate-keys torbrowser@torproject.org && \
+RUN curl -s https://openpgpkey.torproject.org/.well-known/openpgpkey/torproject.org/hu/kounek7zrdx745qydx6p59t9mqjpuhdf |gpg --import - && \
     gpg --output ./tor.keyring --export $TOR_FINGERPRINT && \
     gpgv --keyring ./tor.keyring "${TOR_SIGNATURE##*/}" "${TOR_BINARY##*/}"
 
@@ -41,4 +41,3 @@ COPY browser-cfg /browser-cfg
 
 # Add start script
 COPY startapp.sh /startapp.sh
-
