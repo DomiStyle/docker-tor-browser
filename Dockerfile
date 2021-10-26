@@ -24,7 +24,7 @@ RUN wget $TOR_BINARY && \
     wget $TOR_SIGNATURE
 
 # Verify GPG signature
-RUN curl -s https://openpgpkey.torproject.org/.well-known/openpgpkey/torproject.org/hu/kounek7zrdx745qydx6p59t9mqjpuhdf |gpg --import - && \
+RUN curl -s https://openpgpkey.torproject.org/.well-known/openpgpkey/torproject.org/hu/kounek7zrdx745qydx6p59t9mqjpuhdf | gpg --import - && \
     gpg --output ./tor.keyring --export $TOR_FINGERPRINT && \
     gpgv --keyring ./tor.keyring "${TOR_SIGNATURE##*/}" "${TOR_BINARY##*/}"
 
