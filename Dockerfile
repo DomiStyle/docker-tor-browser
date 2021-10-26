@@ -4,7 +4,7 @@ RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ bionic main" >>  /etc/apt/sou
 RUN > /var/lib/dpkg/statoverride
 
 # Set environment variables
-ENV TOR_VERSION=10.5.8
+ENV TOR_VERSION=10.5.10
 ENV APP_NAME="Tor Browser ${TOR_VERSION}" \
     TOR_BINARY=https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-browser-linux64-${TOR_VERSION}_en-US.tar.xz \
     TOR_SIGNATURE=https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-browser-linux64-${TOR_VERSION}_en-US.tar.xz.asc \
@@ -12,7 +12,7 @@ ENV APP_NAME="Tor Browser ${TOR_VERSION}" \
     DEBIAN_FRONTEND=noninteractive
 
 # Install Tor onion icon
-RUN install_app_icon.sh "https://github.com/DomiStyle/docker-tor-browser/raw/master/icon.png"
+RUN install_app_icon.sh "https://raw.githubusercontent.com/DomiStyle/docker-tor-browser/master/icon.png"
 
 # Add wget and Tor browser dependencies
 RUN apt-get update && \
@@ -27,7 +27,7 @@ RUN wget $TOR_BINARY && \
     wget $TOR_SIGNATURE
 
 # Verify GPG signature
-RUN curl -s https://openpgpkey.torproject.org/.well-known/openpgpkey/torproject.org/hu/kounek7zrdx745qydx6p59t9mqjpuhdf |gpg --import - && \
+RUN curl -s https://openpgpkey.torproject.org/.well-known/openpgpkey/torproject.org/hu/kounek7zrdx745qydx6p59t9mqjpuhdf | gpg --import - && \
     gpg --output ./tor.keyring --export $TOR_FINGERPRINT && \
     gpgv --keyring ./tor.keyring "${TOR_SIGNATURE##*/}" "${TOR_BINARY##*/}"
 
