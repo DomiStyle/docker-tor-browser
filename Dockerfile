@@ -1,7 +1,7 @@
 FROM jlesage/baseimage-gui:ubuntu-18.04
 
 # Set environment variables
-ENV TOR_VERSION=11.0.1
+ENV TOR_VERSION=11.0.2
 ENV APP_NAME="Tor Browser ${TOR_VERSION}" \
     TOR_BINARY=https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-browser-linux64-${TOR_VERSION}_en-US.tar.xz \
     TOR_SIGNATURE=https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-browser-linux64-${TOR_VERSION}_en-US.tar.xz.asc \
