@@ -11,17 +11,17 @@ ENV APP_NAME="Tor Browser ${TOR_VERSION}" \
 # Install Tor onion icon
 RUN install_app_icon.sh "https://raw.githubusercontent.com/DomiStyle/docker-tor-browser/master/icon.png"
 
-# Add wget and Tor browser dependencies
+# Add Tor browser dependencies
 RUN apt-get update && \
-    apt-get install -y wget curl gpg libdbus-glib-1-2 libgtk-3-0 && \
+    apt-get install -y curl gpg libdbus-glib-1-2 libgtk-3-0 && \
     rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 WORKDIR /app
 
 # Download binary and signature
-RUN wget $TOR_BINARY && \
-    wget $TOR_SIGNATURE
+RUN curl -sLO $TOR_BINARY && \
+    curl -sLO $TOR_SIGNATURE
 
 # Verify GPG signature
 RUN curl -s https://openpgpkey.torproject.org/.well-known/openpgpkey/torproject.org/hu/kounek7zrdx745qydx6p59t9mqjpuhdf | gpg --import - && \
