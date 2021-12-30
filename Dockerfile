@@ -20,8 +20,8 @@ RUN apt-get update && \
 WORKDIR /app
 
 # Download binary and signature
-RUN curl -sLO $TOR_BINARY && \
-    curl -sLO $TOR_SIGNATURE
+RUN curl -sLO ${TOR_BINARY} && \
+    curl -sLO ${TOR_SIGNATURE}
 
 # Verify GPG signature
 RUN curl -s https://openpgpkey.torproject.org/.well-known/openpgpkey/torproject.org/hu/kounek7zrdx745qydx6p59t9mqjpuhdf | gpg --import - && \
