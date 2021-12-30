@@ -1,5 +1,5 @@
 ### Build stage
-FROM jlesage/baseimage-gui:ubuntu-18.04 AS builder
+FROM jlesage/baseimage-gui:ubuntu-20.04 AS builder
 
 ENV TOR_VERSION="11.0.3"
 ENV ONION_ICON_URL="https://raw.githubusercontent.com/DomiStyle/docker-tor-browser/master/icon.png"
@@ -17,6 +17,7 @@ RUN apt-get update \
     curl \
     gnupg \
     gpg \
+    xz-utils \
   && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -35,7 +36,7 @@ RUN chown -R "${USER_ID}":"${GROUP_ID}" /app
 RUN rm "${TOR_BINARY##*/}" "${TOR_SIGNATURE##*/}"
 
 ### Final image
-FROM jlesage/baseimage-gui:ubuntu-18.04
+FROM jlesage/baseimage-gui:ubuntu-20.04
 
 ENV TOR_VERSION="11.0.3"
 ENV APP_NAME="Tor Browser ${TOR_VERSION}"
