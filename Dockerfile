@@ -11,7 +11,7 @@ ENV TOR_FINGERPRINT="0xEF6E286DDA85EA2A4BA7DE684E2C6E8793298290"
 # Generate Tor onion favicons
 RUN install_app_icon.sh "${ONION_ICON_URL}"
 
-ARG ENV DEBIAN_FRONTEND="noninteractive"
+ARG DEBIAN_FRONTEND="noninteractive"
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
     curl \
