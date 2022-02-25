@@ -1,10 +1,12 @@
 ### Build stage
 FROM jlesage/baseimage-gui:ubuntu-20.04 AS builder
 
+ARG LOCALE="en-US"
+
 ENV TOR_VERSION="11.0.6"
 ENV ONION_ICON_URL="https://raw.githubusercontent.com/DomiStyle/docker-tor-browser/master/icon.png"
-ENV TOR_BINARY="https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-browser-linux64-${TOR_VERSION}_en-US.tar.xz"
-ENV TOR_SIGNATURE="https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-browser-linux64-${TOR_VERSION}_en-US.tar.xz.asc"
+ENV TOR_BINARY="https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-browser-linux64-${TOR_VERSION}_${LOCALE}.tar.xz"
+ENV TOR_SIGNATURE="https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-browser-linux64-${TOR_VERSION}_${LOCALE}.tar.xz.asc"
 ENV TOR_GPG_KEY="https://openpgpkey.torproject.org/.well-known/openpgpkey/torproject.org/hu/kounek7zrdx745qydx6p59t9mqjpuhdf"
 ENV TOR_FINGERPRINT="0xEF6E286DDA85EA2A4BA7DE684E2C6E8793298290"
 
