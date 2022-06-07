@@ -3,7 +3,7 @@ FROM jlesage/baseimage-gui:ubuntu-20.04 AS builder
 
 ARG LOCALE="en-US"
 
-ENV TOR_VERSION="11.0.13"
+ENV TOR_VERSION="11.0.14"
 ENV ONION_ICON_URL="https://raw.githubusercontent.com/DomiStyle/docker-tor-browser/master/icon.png"
 ENV TOR_BINARY="https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-browser-linux64-${TOR_VERSION}_${LOCALE}.tar.xz"
 ENV TOR_SIGNATURE="https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-browser-linux64-${TOR_VERSION}_${LOCALE}.tar.xz.asc"
@@ -40,7 +40,7 @@ RUN rm "${TOR_BINARY##*/}" "${TOR_SIGNATURE##*/}"
 ### Final image
 FROM jlesage/baseimage-gui:ubuntu-20.04
 
-ENV TOR_VERSION="11.0.13"
+ENV TOR_VERSION="11.0.14"
 ENV APP_NAME="Tor Browser ${TOR_VERSION}"
 
 ARG DEBIAN_FRONTEND="noninteractive"
