@@ -1,4 +1,4 @@
-version: '2'
+version: '3.9'
 
 services:
   tor:
@@ -8,9 +8,9 @@ services:
       - 5800:5800
       - 5900:5900
     environment:
-      - DISPLAY_WIDTH: 1920
-      - DISPLAY_HEIGHT: 1080
-      - KEEP_APP_RUNNING: 1
-      - TZ: Europe/Vienna
+      DISPLAY_WIDTH: 1920
+      DISPLAY_HEIGHT: 1080
+      KEEP_APP_RUNNING: 1
+      TZ: Europe/Vienna
     volumes:
       - /srv/tor:/app/Browser/TorBrowser/Data/Tor
