@@ -10,9 +10,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Get version for tag
+      - name: Set environment variables
         run: |
           echo "VERSION=$(awk -F '=' '/TOR_VERSION/{print $NF; exit}' Dockerfile | tr -d '"')" >> $GITHUB_ENV
+          echo "REPO=${${{ github.repository }},,}" >> $GITHUB_ENV
 
       - name: Create version tag
         uses: rickstaa/action-create-tag@v1
@@ -51,5 +52,5 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/tor-browser:${{ env.VERSION }}
             ${{ secrets.DOCKERHUB_USERNAME }}/tor-browser:latest
-            ghcr.io/${{ github.repository }}:${{ env.VERSION }}
-            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ env.REPO }}:${{ env.VERSION }}
+            ghcr.io/${{ env.REPO }}:latest
