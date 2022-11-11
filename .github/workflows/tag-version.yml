@@ -1,0 +1,27 @@
+name: Create/update tag
+
+on:
+  push:
+    branch: "master"
+
+jobs:
+  create-tag-latest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get version for tag
+        run: |
+          echo "VERSION=$(awk -F '=' '/TOR_VERSION/{print $NF; exit}' Dockerfile | tr -d '"')" >> $GITHUB_ENV
+
+      - name: Create version tag
+        uses: rickstaa/action-create-tag@v1
+        with:
+          tag: "${{ env.VERSION }}"
+          message: "Tor Browser v${{ env.VERSION }}"
+
+      - name: Tag as latest
+        uses: rickstaa/action-create-tag@v1
+        with:
+          tag: "latest"
+          message: "Latest Tor Browser version"
