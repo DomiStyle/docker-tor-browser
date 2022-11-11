@@ -53,7 +53,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            domistyle/tor-browser:${{ env.VERSION }}
-            domistyle/tor-browser:latest
-            ghcr.io/domistyle/tor-browser:${{ env.VERSION }}
-            ghcr.io/domistyle/tor-browser:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/tor-browser:${{ env.VERSION }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/tor-browser:latest
+            ghcr.io/${{ github.repository }}:${{ env.VERSION }}
+            ghcr.io/${{ github.repository }}:latest
