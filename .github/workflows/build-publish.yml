@@ -27,9 +27,6 @@ jobs:
           force_push_tag: true
           tag: "latest"
           message: "Latest Tor Browser version"
-      
-      - name: Set up QEMU  # for arm support
-        uses: docker/setup-qemu-action@v2
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -50,7 +47,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          platforms: linux/amd64,linux/arm64
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/tor-browser:${{ env.VERSION }}
