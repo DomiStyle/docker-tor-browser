@@ -1,0 +1,36 @@
+name: Check for Tor Browser update
+
+on:
+  schedule:
+    - cron:  '0 0 * * *'  # daily at midnight
+  workflow_dispatch:
+
+jobs:
+  check-for-updates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Update to latest version
+        run: |
+          release=$(curl -s 'https://api.github.com/repos/TheTorProject/gettorbrowser/releases/latest')
+          latest=$(echo $release | python3 -c "import sys, json; tag_name = json.load(sys.stdin)['tag_name']; print(tag_name[tag_name.index('-')+1:])")
+          current=$(awk -F '=' '/TOR_VERSION/{print $NF; exit}' Dockerfile | tr -d '"')
+          dpkg --compare-versions $latest gt $current
+          if [ $? == 0 ]; then
+            sed -i s/TOR_VERSION=".*"/TOR_VERSION=\"$latest\"/g Dockerfile
+            echo "TB_UPDATED=0" >> $GITHUB_ENV
+            echo "TB_VERSION=$latest" >> $GITHUB_ENV
+          else
+            echo "TB_UPDATED=1" >> $GITHUB_ENV
+          fi
+          
+      - name: Commit update
+        run: |
+          if [ ${{ env.TB_UPDATED }} == 0 ]; then
+            git config --global user.name "github-runner[bot]"
+            git config --global user.email "github-runner[bot]@users.noreply.github.com"
+            git add .
+            git commit -m "Updated Tor Browser version to ${{ env.TB_VERSION }} " || echo
+            git push origin ${GITHUB_REF##*/} -f
+          fi
