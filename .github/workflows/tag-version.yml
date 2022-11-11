@@ -17,11 +17,13 @@ jobs:
       - name: Create version tag
         uses: rickstaa/action-create-tag@v1
         with:
+          force_push_tag: true
           tag: "${{ env.VERSION }}"
           message: "Tor Browser v${{ env.VERSION }}"
 
       - name: Tag as latest
         uses: rickstaa/action-create-tag@v1
         with:
+          force_push_tag: true
           tag: "latest"
           message: "Latest Tor Browser version"
