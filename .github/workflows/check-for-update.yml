@@ -13,8 +13,8 @@ jobs:
 
       - name: Update to latest version
         run: |
-          curl -sSL https://api.github.com/repos/TheTorProject/gettorbrowser/releases/latest | \
-          python3 -c "import sys, json; tag_name = json.load(sys.stdin)['tag_name']; print(tag_name[tag_name.index('-')+1:])"
+          latest=$(curl -sSL https://api.github.com/repos/TheTorProject/gettorbrowser/releases/latest | \
+          python3 -c "import sys, json; tag_name = json.load(sys.stdin)['tag_name']; print(tag_name[tag_name.index('-')+1:])")
           current=$(awk -F '=' '/TOR_VERSION/{print $NF; exit}' Dockerfile | tr -d '"')
           dpkg --compare-versions $latest gt $current
           if [ $? == 0 ]; then
