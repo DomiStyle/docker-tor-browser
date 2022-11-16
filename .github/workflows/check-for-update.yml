@@ -4,6 +4,10 @@ on:
   schedule:
     - cron:  '0 0 * * *'  # daily at midnight
   workflow_dispatch:
+  
+defaults:
+  run:
+    shell: bash
 
 jobs:
   check-for-updates:
@@ -13,7 +17,7 @@ jobs:
 
       - name: Update to latest version
         run: |
-          export current=$(awk -F '=' '/TOR_VERSION/{print $NF; exit}' Dockerfile | tr -d '"')
+          current=$(awk -F '=' '/TOR_VERSION/{print $NF; exit}' Dockerfile | tr -d '"')
           curl -sSL https://api.github.com/repos/TheTorProject/gettorbrowser/releases/latest | \
           python3 -c "import sys, json; tag_name = json.load(sys.stdin)['tag_name']; print(tag_name[tag_name.index('-')+1:])" | \
           { read latest; dpkg --compare-versions $latest gt $current; }
