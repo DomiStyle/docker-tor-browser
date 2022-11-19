@@ -1,5 +1,5 @@
 ### Build stage
-FROM jlesage/baseimage-gui:ubuntu-20.04 AS builder
+FROM jlesage/baseimage-gui:ubuntu-20.04-v4 AS builder
 
 ARG LOCALE="en-US"
 
@@ -74,7 +74,7 @@ RUN if [ $TARGETARCH = "amd64" ]; then \
     fi
 
 ### Final image
-FROM jlesage/baseimage-gui:ubuntu-20.04
+FROM jlesage/baseimage-gui:ubuntu-20.04-v4
 
 ENV TOR_VERSION="11.5.7"
 ENV APP_NAME="Tor Browser ${TOR_VERSION}"
