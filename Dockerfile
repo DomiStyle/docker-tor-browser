@@ -25,6 +25,7 @@ RUN install_app_icon.sh "${ONION_ICON_URL}"
 ARG DEBIAN_FRONTEND="noninteractive"
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
+    ca-certificates \
     curl \
     gnupg \
     gpg \
@@ -34,43 +35,43 @@ RUN apt-get update \
 WORKDIR /app
 
 # Download Tor Browser
-RUN if [ $TARGETARCH = "amd64" ]; then \
-      curl -sLO "${TOR_BINARY_X64}" && \
-      curl -sLO "${TOR_SIGNATURE_X64}"; \
-    elif [ $TARGETARCH = "arm64"]; then \
-      curl -sLO "${TOR_BINARY_ARM64}" && \
-      curl -sLO "${TOR_SIGNATURE_ARM64}"; \
+RUN if [ "$TARGETARCH" = "amd64" ]; then \
+      curl -sSLO "${TOR_BINARY_X64}" && \
+      curl -sSLO "${TOR_SIGNATURE_X64}"; \
+    elif [ "$TARGETARCH" = "arm64" ]; then \
+      curl -sSLO "${TOR_BINARY_ARM64}" && \
+      curl -sSLO "${TOR_SIGNATURE_ARM64}"; \
     else \
-      echo "CRITICAL: Architecture not in [amd64, arm64]" && \
-      exit(1); \
+      echo "CRITICAL: Architecture '${TARGETARCH}' not in [amd64, arm64]" && \
+      exit 1; \
     fi
 
 # Verify GPG signature of the Tor Browser binary
-RUN if [ $TARGETARCH = "amd64" ]; then \
-      curl -sL "${TOR_GPG_KEY_X64}" | gpg --import - && \
+RUN if [ "$TARGETARCH" = "amd64" ]; then \
+      curl -sSL "${TOR_GPG_KEY_X64}" | gpg --import - && \
       gpg --output ./tor.keyring --export "${TOR_FINGERPRINT_X64}" && \
       gpgv --keyring ./tor.keyring "${TOR_SIGNATURE_X64##*/}" "${TOR_BINARY_X64##*/}"; \
-    elif [ $TARGETARCH = "arm64"]; then \
-      curl -sL "${TOR_GPG_KEY_ARM64}" | gpg --import - && \
+    elif [ "$TARGETARCH" = "arm64" ]; then \
+      curl -sSL "${TOR_GPG_KEY_ARM64}" | gpg --import - && \
       gpg --output ./tor.keyring --export "${TOR_FINGERPRINT_ARM64}" && \
       gpgv --keyring ./tor.keyring "${TOR_SIGNATURE_ARM64##*/}" "${TOR_BINARY_ARM64##*/}"; \
     else \
-      echo "CRITICAL: Architecture not in [amd64, arm64]" && \
-      exit(1); \
+      echo "CRITICAL: Architecture '${TARGETARCH}' not in [amd64, arm64]" && \
+      exit 1; \
     fi
 
 # Install Tor Browser
-RUN if [ $TARGETARCH = "amd64" ]; then \
+RUN if [ "$TARGETARCH" = "amd64" ]; then \
       tar --strip 1 -xvJf "${TOR_BINARY_X64##*/}" && \
       chown -R "${USER_ID}":"${GROUP_ID}" /app && \
       rm "${TOR_BINARY_X64##*/}" "${TOR_SIGNATURE_X64##*/}"; \
-    elif [ $TARGETARCH = "arm64"]; then \
+    elif [ "$TARGETARCH" = "arm64" ]; then \
       tar --strip 1 -xvJf "${TOR_BINARY_ARM64##*/}" && \
       chown -R "${USER_ID}":"${GROUP_ID}" /app && \
       rm "${TOR_BINARY_ARM64##*/}" "${TOR_SIGNATURE_ARM64##*/}"; \
     else \
-      echo "CRITICAL: Architecture not in [amd64, arm64]" && \
-      exit(1); \
+      echo "CRITICAL: Architecture '${TARGETARCH}' not in [amd64, arm64]" && \
+      exit 1; \
     fi
 
 ### Final image
@@ -87,8 +88,8 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /app /app
-COPY --from=builder /opt/novnc/images/icons/* /opt/novnc/images/icons/
-COPY --from=builder /opt/novnc/index.vnc /opt/novnc/index.vnc
+COPY --from=builder /opt/noVNC/app/images/icons/* /opt/noVNC/app/images/icons/
+COPY --from=builder /opt/noVNC/index.html /opt/noVNC/index.html
 
 COPY browser-cfg /browser-cfg
 COPY startapp.sh /startapp.sh
