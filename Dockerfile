@@ -80,6 +80,8 @@ FROM jlesage/baseimage-gui:ubuntu-20.04-v4
 ENV TOR_VERSION="11.5.7"
 ENV APP_NAME="Tor Browser ${TOR_VERSION}"
 
+ENV show_output=1
+
 ARG DEBIAN_FRONTEND="noninteractive"
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
