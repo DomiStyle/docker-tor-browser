@@ -34,43 +34,43 @@ RUN apt-get update \
 WORKDIR /app
 
 # Download Tor Browser
-RUN if [ $TARGETARCH = "amd64" ]; then
+RUN if [ $TARGETARCH = "amd64" ]; then \
       curl -sLO "${TOR_BINARY_X64}" && \
-      curl -sLO "${TOR_SIGNATURE_X64}"
-    elif [ $TARGETARCH = "arm64"]; then
+      curl -sLO "${TOR_SIGNATURE_X64}"; \
+    elif [ $TARGETARCH = "arm64"]; then \
       curl -sLO "${TOR_BINARY_ARM64}" && \
-      curl -sLO "${TOR_SIGNATURE_ARM64}"
-    else
+      curl -sLO "${TOR_SIGNATURE_ARM64}"; \
+    else \
       echo "CRITICAL: Architecture not in [amd64, arm64]" && \
-      exit(1)
+      exit(1); \
     fi
 
 # Verify GPG signature of the Tor Browser binary
-RUN if [ $TARGETARCH = "amd64" ]; then
+RUN if [ $TARGETARCH = "amd64" ]; then \
       curl -sL "${TOR_GPG_KEY_X64}" | gpg --import - && \
       gpg --output ./tor.keyring --export "${TOR_FINGERPRINT_X64}" && \
-      gpgv --keyring ./tor.keyring "${TOR_SIGNATURE_X64##*/}" "${TOR_BINARY_X64##*/}"
-    elif [ $TARGETARCH = "arm64"]; then
+      gpgv --keyring ./tor.keyring "${TOR_SIGNATURE_X64##*/}" "${TOR_BINARY_X64##*/}"; \
+    elif [ $TARGETARCH = "arm64"]; then \
       curl -sL "${TOR_GPG_KEY_ARM64}" | gpg --import - && \
       gpg --output ./tor.keyring --export "${TOR_FINGERPRINT_ARM64}" && \
-      gpgv --keyring ./tor.keyring "${TOR_SIGNATURE_ARM64##*/}" "${TOR_BINARY_ARM64##*/}"
-    else
+      gpgv --keyring ./tor.keyring "${TOR_SIGNATURE_ARM64##*/}" "${TOR_BINARY_ARM64##*/}"; \
+    else \
       echo "CRITICAL: Architecture not in [amd64, arm64]" && \
-      exit(1)
+      exit(1); \
     fi
 
 # Install Tor Browser
-RUN if [ $TARGETARCH = "amd64" ]; then
+RUN if [ $TARGETARCH = "amd64" ]; then \
       tar --strip 1 -xvJf "${TOR_BINARY_X64##*/}" && \
       chown -R "${USER_ID}":"${GROUP_ID}" /app && \
-      rm "${TOR_BINARY_X64##*/}" "${TOR_SIGNATURE_X64##*/}"
-    elif [ $TARGETARCH = "arm64"]; then
+      rm "${TOR_BINARY_X64##*/}" "${TOR_SIGNATURE_X64##*/}"; \
+    elif [ $TARGETARCH = "arm64"]; then \
       tar --strip 1 -xvJf "${TOR_BINARY_ARM64##*/}" && \
       chown -R "${USER_ID}":"${GROUP_ID}" /app && \
-      rm "${TOR_BINARY_ARM64##*/}" "${TOR_SIGNATURE_ARM64##*/}"
-    else
+      rm "${TOR_BINARY_ARM64##*/}" "${TOR_SIGNATURE_ARM64##*/}"; \
+    else \
       echo "CRITICAL: Architecture not in [amd64, arm64]" && \
-      exit(1)
+      exit(1); \
     fi
 
 ### Final image
