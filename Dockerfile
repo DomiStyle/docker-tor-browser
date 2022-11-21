@@ -85,8 +85,11 @@ ENV show_output=1
 ARG DEBIAN_FRONTEND="noninteractive"
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
+    file \
     libdbus-glib-1-2 \
     libgtk-3-0 \
+    libx11-xcb1 \
+    libxt6 \
   && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /app /app
