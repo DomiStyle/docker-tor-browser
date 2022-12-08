@@ -3,7 +3,7 @@ FROM jlesage/baseimage-gui:ubuntu-20.04-v4 AS builder
 
 ARG LOCALE="en-US"
 
-ENV TOR_VERSION="11.5.8"
+ENV TOR_VERSION="12.0.0"
 
 # automatic; passed in by Docker buildx
 ARG TARGETARCH
@@ -77,7 +77,7 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
 ### Final image
 FROM jlesage/baseimage-gui:ubuntu-20.04-v4
 
-ENV TOR_VERSION="11.5.8"
+ENV TOR_VERSION="12.0.0"
 ENV APP_NAME="Tor Browser ${TOR_VERSION}"
 
 ENV show_output=1
