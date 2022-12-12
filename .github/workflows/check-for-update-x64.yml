@@ -1,8 +1,8 @@
-name: Check for Tor Browser update
+name: Check for Tor Browser x64 update
 
 on:
   schedule:
-    - cron:  '0 0 * * *'  # daily at midnight
+    - cron:  '0 0 * * *'  # daily at 00:00 UTC
   workflow_dispatch:
 
 jobs:
@@ -11,16 +11,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Update to latest version
+      - name: Update x64 to latest version
         run: |
           latest=$( \
             curl -sSL https://api.github.com/repos/TheTorProject/gettorbrowser/releases/latest | \
             python3 -c "import sys, json; tag_name = json.load(sys.stdin)['tag_name']; print(tag_name[tag_name.index('-')+1:])" \
           )
-          current=$(awk -F '=' '/TOR_VERSION/{print $NF; exit}' Dockerfile | tr -d '"')
+          current=$(awk -F '=' '/TOR_VERSION_X64/{print $NF; exit}' Dockerfile | tr -d '"')
           dpkg --compare-versions $latest gt $current && update=0 || update=1
           if [ $update == 0 ]; then
-            sed -i s/TOR_VERSION=".*"/TOR_VERSION=\"$latest\"/g Dockerfile
+            sed -i s/TOR_VERSION_X64=".*"/TOR_VERSION_X64=\"$latest\"/g Dockerfile
             echo "TB_UPDATED=0" >> $GITHUB_ENV
             echo "TB_VERSION=$latest" >> $GITHUB_ENV
           else
@@ -33,6 +33,6 @@ jobs:
             git config --global user.name "github-runner[bot]"
             git config --global user.email "github-runner[bot]@users.noreply.github.com"
             git add .
-            git commit -m "Updated Tor Browser version to ${{ env.TB_VERSION }} " || echo
+            git commit -m "Updated Tor Browser x64 version to ${{ env.TB_VERSION }} " || echo
             git push origin ${GITHUB_REF##*/} -f
           fi

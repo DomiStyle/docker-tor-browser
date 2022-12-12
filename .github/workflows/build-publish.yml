@@ -12,14 +12,22 @@ jobs:
 
       - name: Set environment variables
         run: |
-          echo "VERSION=$(awk -F '=' '/TOR_VERSION/{print $NF; exit}' Dockerfile | tr -d '"')" >> $GITHUB_ENV
+          echo "VERSION_X64=$(awk -F '=' '/TOR_VERSION_X64/{print $NF; exit}' Dockerfile | tr -d '"')" >> $GITHUB_ENV
+          echo "VERSION_ARM64=$(awk -F '=' '/TOR_VERSION_ARM64/{print $NF; exit}' Dockerfile | tr -d '"')" >> $GITHUB_ENV
 
-      - name: Create version tag
+      - name: Create version tag for x64
         uses: rickstaa/action-create-tag@v1
         with:
           force_push_tag: true
-          tag: "${{ env.VERSION }}"
-          message: "Tor Browser v${{ env.VERSION }}"
+          tag: "${{ env.VERSION_X64 }}"
+          message: "Tor Browser v${{ env.VERSION_X64 }}"
+
+      - name: Create version tag for arm64
+        uses: rickstaa/action-create-tag@v1
+        with:
+          force_push_tag: true
+          tag: "arm64-${{ env.VERSION_ARM64 }}"
+          message: "Tor Browser v${{ env.VERSION_ARM64 }} (arm64)"
 
       - name: Tag as latest
         uses: rickstaa/action-create-tag@v1
@@ -47,13 +55,24 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push
+      - name: Build and push x64
         uses: docker/build-push-action@v3
         with:
           push: true
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/tor-browser:${{ env.VERSION }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/tor-browser:${{ env.VERSION_X64 }}
             ${{ secrets.DOCKERHUB_USERNAME }}/tor-browser:latest
-            ghcr.io/domistyle/docker-tor-browser:${{ env.VERSION }}
+            ghcr.io/domistyle/docker-tor-browser:${{ env.VERSION_X64 }}
+            ghcr.io/domistyle/docker-tor-browser:latest
+
+      - name: Build and push arm64
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          platforms: linux/arm64
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/tor-browser:arm64-${{ env.VERSION_ARM64 }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/tor-browser:latest
+            ghcr.io/domistyle/docker-tor-browser:arm64-${{ env.VERSION_ARM64 }}
             ghcr.io/domistyle/docker-tor-browser:latest
