@@ -26,7 +26,7 @@ jobs:
         uses: rickstaa/action-create-tag@v1
         with:
           force_push_tag: true
-          tag: "${{ env.VERSION_ARM64 }}"
+          tag: "arm-${{ env.VERSION_ARM64 }}"
           message: "Tor Browser v${{ env.VERSION_ARM64 }}"
 
       - name: Tag as latest
