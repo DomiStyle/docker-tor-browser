@@ -90,6 +90,7 @@ RUN apt-get update \
     libgtk-3-0 \
     libx11-xcb1 \
     libxt6 \
+    libasound2 \
   && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /app /app
