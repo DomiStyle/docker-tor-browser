@@ -2,7 +2,7 @@ name: Tag, Build, and Publish Container
 
 on:
   push:
-    branch: "master"
+    branches: "master"
 
 jobs:
   tag-and-publish:
