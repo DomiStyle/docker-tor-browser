@@ -3,7 +3,7 @@ name: Tag, Build, and Publish Container
 on:
   push:
     branches:
-      - "master"
+      - 'master'
   workflow_dispatch:
 
 jobs:
