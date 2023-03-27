@@ -1,0 +1,99 @@
+#!/bin/bash
+# set -x
+#
+# $HOME/Development/git/docker-tor-browser
+#
+
+# https://stackoverflow.com/a/4774063/1700121
+RUN="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+
+DN=/dev/null
+PA_PID="$HOME/.config/pulse/`hostname`-runtime/pid"
+
+. $RUN/tor.opts.default.sh
+
+if [ -f $RUN/tor.opts.sh ]
+then
+	. $RUN/tor.opts.sh
+fi
+
+docker ps > /dev/null 
+if [ $? -ne 0 ]
+then
+	
+	echo "Docker not running"
+	exit 1
+fi
+
+if [ ! -z "$SHARED_LOCAL_FOLDER"  -a ! -d "$SHARED_LOCAL_FOLDER" ]
+then
+	echo "Can not find $SHARED_LOCAL_FOLDER"
+	exit 1
+fi
+
+PLAT=$(uname)
+EXTERNAL_PORT_PULSEAUDIO=4713
+PARAMS=()
+PARAMS+=("-d")						#
+PARAMS+=("--shm-size=2g")				#
+PARAMS+=("--add-host host.docker.internal:$HOST_IP")	#
+PARAMS+=("-p 127.0.0.1:$EXTERNAL_PORT_VNC:5800")	#
+PARAMS+=("-p 127.0.0.1:$EXTERNAL_PORT_PULSEAUDIO:4713")	#
+PARAMS+=("-e DISPLAY_WIDTH=$DISPLAY_WIDTH")		#
+PARAMS+=("-e DISPLAY_HEIGHT=$DISPLAY_HEIGHT")		#
+if [ ! -z "$SHARED_LOCAL_FOLDER" ]
+then
+	PARAMS+=("-v $SHARED_LOCAL_FOLDER:/app/host")	#
+fi
+if [ "$PLAT" = "Linux" ]
+then
+	PARAMS+=("-v /run/user/1000/pulse:/run/user/1000/pulse")	#
+	USE_NATIVE_PA="1"
+else
+	USE_NATIVE_PA="0"
+fi
+
+
+DOCKER_INSTANCE_ID=$(docker run ${PARAMS[*]} "$DOCKER_IMAGE_TAG")
+
+IMAGE_ID=${DOCKER_INSTANCE_ID:0:12}
+
+echo ""
+echo "http://localhost:$EXTERNAL_PORT_VNC/"
+echo ""
+echo "Full Id: $DOCKER_INSTANCE_ID"
+echo ""
+echo "# docker kill $IMAGE_ID"
+echo "IMAGE_ID=$IMAGE_ID"
+
+echo "docker exec -it $IMAGE_ID /bin/bash"
+echo "setclip 'file:///app/host/home.html'"
+
+docker ps --format "{{.ID}} {{.Image}} {{.Status}}"
+echo ""
+
+if [ "$USE_NATIVE_PA" = "1" ]
+then
+	echo "Using native pulse audio"
+else
+	$RUN/audio.sh &
+fi
+
+echo ""
+echo ""
+echo "Starting shell...."
+echo ""
+echo ""
+docker exec -it $IMAGE_ID /bin/bash
+echo ""
+echo "Waiting for docker to end..."
+docker wait $IMAGE_ID
+
+if [ "$USE_NATIVE_PA" != "1" ]
+then
+	PID=`cat $PA_PID`
+	echo "Killing PA (pid=$PID)"
+	kill $PID
+fi
+
+echo "Terminated"
