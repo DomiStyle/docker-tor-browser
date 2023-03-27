@@ -1,0 +1,71 @@
+name: Tag, Build, and Publish Container
+
+on:
+  push:
+    branches:
+      - 'master'
+  workflow_dispatch:
+
+jobs:
+  tag-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set environment variables
+        run: |
+          echo "VERSION_X64=$(awk -F '=' '/TOR_VERSION_X64/{print $NF; exit}' Dockerfile | tr -d '"')" >> $GITHUB_ENV
+          echo "VERSION_ARM64=$(awk -F '=' '/TOR_VERSION_ARM64/{print $NF; exit}' Dockerfile | tr -d '"')" >> $GITHUB_ENV
+
+      - name: Create version tag for x64
+        uses: rickstaa/action-create-tag@v1
+        with:
+          force_push_tag: true
+          tag: "${{ env.VERSION_X64 }}"
+          message: "Tor Browser v${{ env.VERSION_X64 }}"
+
+      - name: Create version tag for arm64
+        uses: rickstaa/action-create-tag@v1
+        with:
+          force_push_tag: true
+          tag: "arm64-${{ env.VERSION_ARM64 }}"
+          message: "Tor Browser v${{ env.VERSION_ARM64 }} (arm64)"
+
+      - name: Tag as latest
+        uses: rickstaa/action-create-tag@v1
+        with:
+          force_push_tag: true
+          tag: "latest"
+          message: "Latest Tor Browser version"
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push x64
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          platforms: linux/amd64, linux/arm64
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/tor-browser:${{ env.VERSION_X64 }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/tor-browser:arm64-${{ env.VERSION_ARM64 }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/tor-browser:latest
+            ghcr.io/domistyle/docker-tor-browser:${{ env.VERSION_X64 }}
+            ghcr.io/domistyle/docker-tor-browser:arm64-${{ env.VERSION_ARM64 }}
+            ghcr.io/domistyle/docker-tor-browser:latest
