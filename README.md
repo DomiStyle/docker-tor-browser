@@ -60,3 +60,18 @@ Make sure the container user has read & write permission to these folders on the
 ## Issues & limitations
 
 * shm_size might need to be set to 2GB or more if you experience crashes
+
+## Audio
+
+This implementation uses PulseAudio which comes on Linux but can be installed on OSX.
+If on Linux you can use it natively by:
+   cp run/pulse-client.linux-native.conf run/pulse-client.conf
+The OSX version uses sound over TCP with:
+   cp run/pulse-client.any-tcp.conf run/pulse-client.conf
+
+## Configuration
+
+All the defaults are in run/tor.opts.default.sh, create run/tor.opts.sh and override the values you need for display size, memory and if you are using PulseAudio on OSX HOST_IP.
+To run:
+   run/tor
+
