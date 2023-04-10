@@ -3,8 +3,8 @@ FROM jlesage/baseimage-gui:ubuntu-20.04-v4 AS builder
 
 ARG LOCALE="en-US"
 
-ENV TOR_VERSION_X64="x86_64-12.0.4"
-ENV TOR_VERSION_ARM64="12.0.3"
+ENV TOR_VERSION_X64="12.0.4"
+ENV TOR_VERSION_ARM64="12.0.4"
 
 # automatic; passed in by Docker buildx
 ARG TARGETARCH
@@ -88,9 +88,7 @@ RUN apt-get update \
     file \
     libdbus-glib-1-2 \
     libgtk-3-0 \
-    libx11-xcb1 \
-    libxt6 \
-    libasound2 \
+    vlc xclip vim \
   && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /app /app
@@ -99,6 +97,8 @@ COPY --from=builder /opt/noVNC/index.html /opt/noVNC/index.html
 
 COPY browser-cfg /browser-cfg
 COPY startapp.sh /startapp.sh
+COPY run/pulse-client.conf /etc/pulse/client.conf
 
 EXPOSE 5800
 EXPOSE 5900
+
