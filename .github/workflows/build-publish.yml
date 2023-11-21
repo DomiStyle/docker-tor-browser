@@ -2,7 +2,9 @@ name: Tag, Build, and Publish Container
 
 on:
   push:
-    branch: "master"
+    branches:
+      - 'master'
+  workflow_dispatch:
 
 jobs:
   tag-and-publish:
