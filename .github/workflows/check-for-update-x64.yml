@@ -14,8 +14,8 @@ jobs:
       - name: Update x64 to latest version
         run: |
           latest=$( \
-            curl -sSL https://api.github.com/repos/TheTorProject/gettorbrowser/releases/latest | \
-            python3 -c "import sys, json; tag_name = json.load(sys.stdin)['tag_name']; print(tag_name[tag_name.index('-')+1:])" \
+            curl -sSL https://aus1.torproject.org/torbrowser/update_3/release/downloads.json | \
+            jq -r '.["version"]' \
           )
           current=$(awk -F '=' '/TOR_VERSION_X64/{print $NF; exit}' Dockerfile | tr -d '"')
           dpkg --compare-versions $latest gt $current && update=0 || update=1
