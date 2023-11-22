@@ -44,11 +44,7 @@ cp mozilla.cfg.template mozilla.cfg
 
 ## Volumes
 
-| Path       | Description                                  | Required |
-|------------|----------------------------------------------|----------|
-| `/app/Browser/TorBrowser/Data/Tor` | Add a volume for the Tor settings to speedup container startup when the container gets recreated | No |
-
-Make sure the container user has read & write permission to these folders on the host. [More info here](https://github.com/jlesage/docker-baseimage-gui#usergroup-ids).
+It is not recommended to add persistent volumes to your Tor Browser. We do not support any issues that arise from persistent volumes.
 
 ## Ports
 

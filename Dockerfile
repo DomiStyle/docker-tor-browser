@@ -1,10 +1,10 @@
 ### Build stage
-FROM jlesage/baseimage-gui:ubuntu-20.04-v4 AS builder
+FROM jlesage/baseimage-gui:ubuntu-22.04-v4 AS builder
 
 ARG LOCALE="en-US"
 
-ENV TOR_VERSION_X64="x86_64-12.5.1"
-ENV TOR_VERSION_ARM64="x86_64-12.5.1"
+ENV TOR_VERSION_X64="13.0.1"
+ENV TOR_VERSION_ARM64="13.0.3"
 
 # automatic; passed in by Docker buildx
 ARG TARGETARCH
@@ -76,7 +76,7 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
     fi
 
 ### Final image
-FROM jlesage/baseimage-gui:ubuntu-20.04-v4
+FROM jlesage/baseimage-gui:ubuntu-22.04-v4
 
 ENV APP_NAME="Tor Browser"
 

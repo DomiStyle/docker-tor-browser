@@ -12,5 +12,3 @@ services:
       DISPLAY_HEIGHT: 1080
       KEEP_APP_RUNNING: 1
       TZ: Europe/Vienna
-    volumes:
-      - /srv/tor:/app/Browser/TorBrowser/Data/Tor
