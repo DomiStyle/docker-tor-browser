@@ -18,7 +18,7 @@ jobs:
             jq -r '.["version"]' \
           )
           current=$(awk -F '=' '/TOR_VERSION_X64/{print $NF; exit}' Dockerfile | tr -d '"')
-          dpkg --compare-versions $latest gt $current && update=0 || update=1
+          dpkg --compare-versions "$latest" eq "$current" && update=0 || update=1
           echo "TB_X64_UPDATED=$update" >> $GITHUB_ENV
           echo "TB_X64_VERSION=$latest" >> $GITHUB_ENV
 
