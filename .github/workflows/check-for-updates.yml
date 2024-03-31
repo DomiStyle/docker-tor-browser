@@ -20,7 +20,7 @@ jobs:
           current=$(awk -F '=' '/TOR_VERSION_X64/{print $NF; exit}' Dockerfile | tr -d '"')
           dpkg --compare-versions $latest gt $current && update=0 || update=1
           echo "TB_X64_UPDATED=$update" >> $GITHUB_ENV
-          echo "TB_x64_VERSION=$latest" >> $GITHUB_ENV
+          echo "TB_X64_VERSION=$latest" >> $GITHUB_ENV
 
       - name: Update x64 to latest version and commit update
         if: ${{ env.TB_X64_UPDATED == 0 }}
