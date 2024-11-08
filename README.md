@@ -45,8 +45,33 @@ cp mozilla.cfg.template mozilla.cfg
 ## Volumes
 
 It is not recommended to add persistent volumes to your Tor Browser. We do not support any issues that arise from persistent volumes.
+# Docker Compose Script
 
-## Ports
+# Docker Container Commands
+ To install docker tor browser using docker compose copy and paste the command in your termina
+```
+docker compose up
+```
+To stop the docker container do
+```
+docker stop tor
+```
+To start the container again put the copy following command below in your terminal 
+```
+docker start tor
+```
+To remove the container you can do 
+```
+docker compose down
+```
+or you can do this
+``` 
+docker rm tor
+```
+
+
+
+## Port
 
 | Port       | Description                                  |
 |------------|----------------------------------------------|
