@@ -48,7 +48,7 @@ It is not recommended to add persistent volumes to your Tor Browser. We do not s
 # Docker Compose Script
 
 # Docker Container Commands
- To install docker tor browser using docker compose copy and paste the command in your termina
+ To install tor browser using docker compose copy and paste the command in your terminal
 ```
 docker compose up
 ```
