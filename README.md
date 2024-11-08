@@ -46,7 +46,7 @@ cp mozilla.cfg.template mozilla.cfg
 
 It is not recommended to add persistent volumes to your Tor Browser. We do not support any issues that arise from persistent volumes.
 # Docker Compose Script
-```
+```yaml
 version: '3.9'
 
 services:
