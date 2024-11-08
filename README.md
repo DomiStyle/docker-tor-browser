@@ -65,7 +65,7 @@ services:
 ```
 
 # Docker Container Commands
- To install tor browser using docker compose copy and paste the command in your terminal
+ To install tor browser using docker compose, copy and paste the command in your terminal
 ```
 docker compose up
 ```
