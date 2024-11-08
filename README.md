@@ -73,7 +73,7 @@ To stop the docker container do
 ```
 docker stop tor
 ```
-To start the container again put the copy following command below in your terminal 
+To start the container again put the copy the following command below and paste it in your terminal 
 ```
 docker start tor
 ```
