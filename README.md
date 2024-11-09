@@ -1,9 +1,7 @@
 # Tor
 <p align="center">
   <img width="300px" src="https://upload.wikimedia.org/wikipedia/commons/8/8f/Tor_project_logo_hq.png">
-</p>
-
-![Tor-Project](https://img.shields.io/badge/Tor-Project-7D4698?style=for-the-badge&logo=Tor-Browser&logoColor=whit)
+</p
 
 # Table of Contents
    
