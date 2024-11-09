@@ -130,7 +130,7 @@ To verify that you docker put tje following command below
 ```
 docker
 ```
-To use docker with doing sudo every time do this
+To use docker without doing sudo every time do this
 ```
 sudo usermod -aG docker $USER
 ```
