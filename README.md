@@ -41,7 +41,7 @@ Both amd64 and arm64 container runtimes are supported, but only the amd64 image 
 
 # Usage
 
-See the docker-compose [here](https://github.com/DomiStyle/docker-tor-browser/blob/master/docker-compose.yml) or use this command:
+See the docker-compose [here](https://github.com/DomiStyle/docker-tor-browser/blob/master/docker-compose.yml) or use this command
 
     docker run -d -p 5800:5800 domistyle/tor-browser
 
@@ -94,19 +94,19 @@ services:
 
 # Docker Container Commands
  To install tor browser using docker compose, copy and paste the command in your terminal
-```
+```bash
 docker compose up
 ```
 To stop the docker container do
-```
+```bash
 docker stop tor
 ```
 To start the container again, put the following command below and paste it in your terminal 
-```
+```bash
 docker start tor
 ```
 To remove the container you can do 
-```
+```bash
 docker compose down
 ```
 or you can do this
@@ -115,23 +115,23 @@ docker rm tor
 ```
 # How to install Docker
 First update all your packages by doing
-```
+```bash
 sudo apt update
 ```
 After you update all your packages then it is time to install docker.io by doing 
-```
+```bash
 sudo apt install -y docker.io
 ```
 To add systemctl to docker do this
-```
+```bash
 sudo systemctl enable docker --now
 ```
 To verify that you docker put tje following command below
-```
+```bash
 docker
 ```
 To use docker without doing sudo every time do this
-```
+```bash
 sudo usermod -aG docker $USER
 ```
 
