@@ -125,3 +125,5 @@ docker rm tor
 ## Issues & limitations
 
 * shm_size might need to be set to 2GB or more if you experience crashes
+### Github user who updated this markdown:
+[GitXpresso](https://github.com/GitXpresso)
