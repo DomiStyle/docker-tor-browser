@@ -121,6 +121,10 @@ After you update all your packages then it is time to install docker.io by doing
 ```
 sudo apt install -y docker.io
 ```
+To add systemctl to docker do this
+```
+sudo systemctl enable docker --now
+```
 To verify that you docker put tje following command below
 ```
 docker
