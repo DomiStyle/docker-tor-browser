@@ -5,10 +5,11 @@
 
 # Table of Contents
    
-<details><summary>Docker Compose</summary>
+<details><summary>Docker</summary>
 
 - [Docker Compose Script](#Docker-Compose-Script)
 - [Docker Container Commands](#Docker-Container-Commands)
+- [Docker Installation](#How-to-install-Docker,-step-by-step-guide.)
 
 </details>
    
