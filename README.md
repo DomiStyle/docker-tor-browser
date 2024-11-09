@@ -1,26 +1,21 @@
-# Tor Browser
+# Tor
 
-<details><summary>Links</summary>
-
-    
+# Table of Contents
+   
 <details><summary>Docker Compose</summary>
 
-
-[Docker Compose Script](#Docker-Compose-Script)
-
-[Docker Container Commands](#Docker-Container-Commands)
+- [Docker Compose Script](#Docker-Compose-Script)
+- [Docker Container Commands](#Docker-Container-Commands)
 
 <details><summary>Configuration</summary>
 
-[Platform configuration](#Platform-configuration)
-
-[Browser configuration](#Browser-configuration)
+- [Platform configuration](#Platform-configuration)
+- [Browser configuration](#Browser-configuration)
 
 <details><summary>Others</summary>
-
-[Port](#Port)
-
-[Issues & limitations](#Issue-&-limitations)
+- [Volumes](#Volumes)
+- [Port](#Port)
+- [Issues & limitations](#Issue-&-limitations)
 
 </details></details>
 
