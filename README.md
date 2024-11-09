@@ -112,6 +112,19 @@ or you can do this
 ``` 
 docker rm tor
 ```
+# How to install Docker, step by step guide.
+First update all your packages by doing
+```
+sudo apt update
+```
+After you update all your packages then it is time to install docker.io by doing 
+```
+sudo apt install -y docker.io
+```
+To verify that you docker put tje following command below
+```
+docker
+```
 
 
 
