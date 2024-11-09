@@ -141,7 +141,7 @@ sudo usermod -aG docker $USER
 | Port       | Description                                  |
 |------------|----------------------------------------------|
 | `5800` | Provides a web interface to access the Tor browser |
-| `5900` | Provides direct access to the VNC server |
+| `5900` | Provides direct access to the NoVNC server |
 
 ## Issues And limitations
 
