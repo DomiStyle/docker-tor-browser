@@ -13,6 +13,7 @@
 - [Browser configuration](#Browser-configuration)
 
 <details><summary>Others</summary>
+   
 - [Volumes](#Volumes)
 - [Port](#Port)
 - [Issues & limitations](#Issue-&-limitations)
