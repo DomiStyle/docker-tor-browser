@@ -16,6 +16,12 @@
 
 [Browser configuration](#Browser-configuration)
 
+<details><summary>Others</summary>
+
+[Port](#Port)
+
+[Issues & limitations](#Issue-&-limitations)
+
 </details></details>
 
 ![](https://github.com/DomiStyle/docker-tor-browser/raw/master/screenshot.png)
