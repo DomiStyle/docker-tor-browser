@@ -1,4 +1,7 @@
 # Tor
+<p align="center">
+  <img width="300px" src="https://upload.wikimedia.org/wikipedia/commons/8/8f/Tor_project_logo_hq.png">
+</p>
 
 # Table of Contents
    
