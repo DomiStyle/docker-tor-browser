@@ -126,7 +126,7 @@ To add systemctl to docker do this
 ```bash
 sudo systemctl enable docker --now
 ```
-To verify that you docker put tje following command below
+To verify that you docker put the following command below
 ```bash
 docker
 ```
