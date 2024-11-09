@@ -1,25 +1,22 @@
 # Tor Browser
 
 <details><summary>Links</summary>
+
+    
+<details><summary>Docker Compose</summary>
+
+
+[Docker Compose Script](#Docker_Compose_Script)
+
+[Docker Container Commands](#Docker-Container-Commands)
+
 <details><summary>Configuration</summary>
 
 [Platform configuration](#Platform-configuration)
 
 [Browser configuration](#Browser-configuration)
 
-<details><summary>Docker Compose</summary>
-
-[Docker Compose Script](#Docker_Compose_Script)
-
-[Docker Container Commands](#Docker-Container-Commands)
-
-
-</details>
-
-[Link Text](#Volumes)
-
-
-
+</details></details>
 
 ![](https://github.com/DomiStyle/docker-tor-browser/raw/master/screenshot.png)
 *Tor browser running inside of Firefox*
