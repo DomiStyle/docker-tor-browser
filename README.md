@@ -2,9 +2,15 @@
 
 # Links
 
-[Link Text](#Volumes)
+[Usage](#Usage)
 
-[Docker Compose Scrip](#Docker_Compose_Script)
+[Platform configuration](#Platform-configuration)
+
+[Configurations](#
+
+[Docker Compose Script](#Docker_Compose_Script)
+
+
 
 
 ![](https://github.com/DomiStyle/docker-tor-browser/raw/master/screenshot.png)
@@ -22,9 +28,9 @@ Both amd64 and arm64 container runtimes are supported, but only the amd64 image 
 
 See the docker-compose [here](https://github.com/DomiStyle/docker-tor-browser/blob/master/docker-compose.yml) or use this command:
 
-    docker run -d -p 5800:5800 domistyle/tor-browser
+    docker run -d -p 5domir-browserr-browser
 
-The web interface will be available on port 5800.
+interface will be available on port 5800.
 
 ## Platform configuration
 
