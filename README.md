@@ -113,7 +113,7 @@ or you can do this
 ``` 
 docker rm tor
 ```
-# How to install Docker, step by step guide.
+# How to install Docker
 First update all your packages by doing
 ```
 sudo apt update
