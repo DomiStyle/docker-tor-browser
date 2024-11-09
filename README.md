@@ -1,5 +1,7 @@
-# Tor browser
+# Tor Browser
 
+# Links
+[`Docker Compose Script`](#Docker_Compose_Script)
 ![](https://github.com/DomiStyle/docker-tor-browser/raw/master/screenshot.png)
 *Tor browser running inside of Firefox*
 
