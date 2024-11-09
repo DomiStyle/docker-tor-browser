@@ -7,10 +7,14 @@
 - [Docker Compose Script](#Docker-Compose-Script)
 - [Docker Container Commands](#Docker-Container-Commands)
 
+</details>
+   
 <details><summary>Configuration</summary>
 
 - [Platform configuration](#Platform-configuration)
 - [Browser configuration](#Browser-configuration)
+ 
+</details>
 
 <details><summary>Others</summary>
    
@@ -18,7 +22,7 @@
 - [Port](#Port)
 - [Issues & limitations](#Issue-&-limitations)
 
-</details></details>
+</details>
 
 ![](https://github.com/DomiStyle/docker-tor-browser/raw/master/screenshot.png)
 *Tor browser running inside of Firefox*
