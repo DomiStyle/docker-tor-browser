@@ -143,7 +143,7 @@ sudo usermod -aG docker $USER
 | `5800` | Provides a web interface to access the Tor browser |
 | `5900` | Provides direct access to the VNC server |
 
-## Issues & limitations
+## Issues and limitations
 
 * shm_size might need to be set to 2GB or more if you experience crashes
 ### Github user who updated this markdown:
