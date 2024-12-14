@@ -3,16 +3,17 @@ FROM jlesage/baseimage-gui:ubuntu-22.04-v4 AS builder
 
 ARG LOCALE="en-US"
 
-ENV TOR_VERSION_X64="13.0.13"
-ENV TOR_VERSION_ARM64="13.0.9"
-
+ENV WATERFOX_VERSION_X64="5.7.2"
+ENV WATERFOX_VERSION_ARM64="5.7.2"
+fsSL https://download.opensuse.org/repositories/home:hawkeye116477:waterfox/xUbuntu_22.04/Release.key | sudo gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_hawkeye116477_waterfox.gpg > /dev/null
+echo 'deb http://download.opensuse.org/repositories/home:/hawkeye116477:/waterfox/xUbuntu_22.04/ /' | sudo tee /etc/apt/sources.list.d/home:hawkeye116477:waterfox.list
 # automatic; passed in by Docker buildx
 ARG TARGETARCH
 # x64 Tor Browser official build
-ENV TOR_BINARY_X64="https://www.torproject.org/dist/torbrowser/${TOR_VERSION_X64}/tor-browser-linux64-${TOR_VERSION_X64}_ALL.tar.xz"
-ENV TOR_SIGNATURE_X64="https://www.torproject.org/dist/torbrowser/${TOR_VERSION_X64}/tor-browser-linux64-${TOR_VERSION_X64}_ALL.tar.xz.asc"
-ENV TOR_GPG_KEY_X64="https://openpgpkey.torproject.org/.well-known/openpgpkey/torproject.org/hu/kounek7zrdx745qydx6p59t9mqjpuhdf"
-ENV TOR_FINGERPRINT_X64="0xEF6E286DDA85EA2A4BA7DE684E2C6E8793298290"
+ENV WATERFOX_BINARY_X64="https://www.torproject.org/dist/torbrowser/${TOR_VERSION_X64}/tor-browser-linux64-${TOR_VERSION_X64}_ALL.tar.xz"
+ENV WATERFOX_SIGNATURE_X64="https://www.torproject.org/dist/torbrowser/${TOR_VERSION_X64}/tor-browser-linux64-${TOR_VERSION_X64}_ALL.tar.xz.asc"
+ENV WATERFOX_GPG_KEY_X64="https://openpgpkey.torproject.org/.well-known/openpgpkey/torproject.org/hu/kounek7zrdx745qydx6p59t9mqjpuhdf"
+ENV WATERFOX_FINGERPRINT_X64="0xEF6E286DDA85EA2A4BA7DE684E2C6E8793298290"
 # arm64 Tor Browser unofficial build
 ENV TOR_BINARY_ARM64="https://sourceforge.net/projects/tor-browser-ports/files/${TOR_VERSION_ARM64}/tor-browser-linux-arm64-${TOR_VERSION_ARM64}_ALL.tar.xz"
 ENV TOR_SIGNATURE_ARM64="https://sourceforge.net/projects/tor-browser-ports/files/${TOR_VERSION_ARM64}/tor-browser-linux-arm64-${TOR_VERSION_ARM64}_ALL.tar.xz.asc"
