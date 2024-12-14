@@ -12,7 +12,7 @@ ARG TARGETARCH
 # x64 Tor Browser official build
 ENV WATERFOX_BINARY_X64="https://www.torproject.org/dist/torbrowser/${TOR_VERSION_X64}/tor-browser-linux64-${TOR_VERSION_X64}_ALL.tar.xz"
 ENV WATERFOX_SIGNATURE_X64="https://www.torproject.org/dist/torbrowser/${TOR_VERSION_X64}/tor-browser-linux64-${TOR_VERSION_X64}_ALL.tar.xz.asc"
-ENV WATERFOX_GPG_KEY_X64="https://openpgpkey.torproject.org/.well-known/openpgpkey/torproject.org/hu/kounek7zrdx745qydx6p59t9mqjpuhdf"
+ENV WATERFOX_GPG_KEY="https://download.opensuse.org/repositories/home:/hawkeye116477:/waterfox:/build-depends/xUbuntu_22.04/Release.gpg"
 ENV WATERFOX_FINGERPRINT_X64="0xEF6E286DDA85EA2A4BA7DE684E2C6E8793298290"
 # arm64 Tor Browser unofficial build
 ENV TOR_BINARY_ARM64="https://sourceforge.net/projects/tor-browser-ports/files/${TOR_VERSION_ARM64}/tor-browser-linux-arm64-${TOR_VERSION_ARM64}_ALL.tar.xz"
@@ -21,8 +21,8 @@ ENV TOR_GPG_KEY_ARM64="https://h-lindholm.net/pubkey"
 ENV TOR_FINGERPRINT_ARM64="0x24F141A3B988B6C350B937586AF15D1E45FDCEC9"
 
 # Generate Tor onion favicons
-ENV ONION_ICON_URL="https://raw.githubusercontent.com/DomiStyle/docker-tor-browser/master/icon.png"
-RUN install_app_icon.sh "${ONION_ICON_URL}"
+ENV WATERFOX_ICON_URL="https://raw.githubusercontent.com/DomiStyle/docker-tor-browser/master/icon.png"
+RUN install_app_icon.sh "${WATERFOX_ICON_URL}"
 
 ARG DEBIAN_FRONTEND="noninteractive"
 RUN apt-get update \
@@ -38,11 +38,11 @@ WORKDIR /app
 
 # Download Tor Browser
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
-      curl -sSLO "${TOR_BINARY_X64}" && \
-      curl -sSLO "${TOR_SIGNATURE_X64}"; \
+      curl -sSLO "${WATERFOX_BINARY}" && \
+      curl -sSLO "${WATERFOX_SIGNATURE}"; \
     elif [ "$TARGETARCH" = "arm64" ]; then \
-      curl -sSLO "${TOR_BINARY_ARM64}" && \
-      curl -sSLO "${TOR_SIGNATURE_ARM64}"; \
+      curl -sSLO "${WATERFOX_BINARY_ARM64}" && \
+      curl -sSLO "${WATERFOX_SIGNATURE_ARM64}"; \
     else \
       echo "CRITICAL: Architecture '${TARGETARCH}' not in [amd64, arm64]" && \
       exit 1; \
@@ -50,11 +50,11 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
 
 # Verify GPG signature of the Tor Browser binary
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
-      curl -sSL "${TOR_GPG_KEY_X64}" | gpg --import - && \
+      curl -fsSL "${ WATERFOX_GPG_KEY}" | gpg --import - && \
       gpg --output ./tor.keyring --export "${TOR_FINGERPRINT_X64}" && \
       gpgv --keyring ./tor.keyring "${TOR_SIGNATURE_X64##*/}" "${TOR_BINARY_X64##*/}"; \
     elif [ "$TARGETARCH" = "arm64" ]; then \
-      curl -sSL "${TOR_GPG_KEY_ARM64}" | gpg --import - && \
+      curl -fsSL "${TOR_GPG_KEY_ARM64}" | gpg --import - && \
       gpg --output ./tor.keyring --export "${TOR_FINGERPRINT_ARM64}" && \
       gpgv --keyring ./tor.keyring "${TOR_SIGNATURE_ARM64##*/}" "${TOR_BINARY_ARM64##*/}"; \
     else \
@@ -79,7 +79,7 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
 ### Final image
 FROM jlesage/baseimage-gui:ubuntu-22.04-v4
 
-ENV APP_NAME="Tor Browser"
+ENV APP_NAME= "Waterfox Browser"
 
 ENV show_output=1
 
