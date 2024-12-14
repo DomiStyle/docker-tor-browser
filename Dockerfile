@@ -9,7 +9,6 @@ ENV WATERFOX_VERSION_ARM64="5.7.2"
 ARG TARGETARCH
 # x64 Tor Browser official build
 ENV WATERFOX_BINARY="https://cdn1.waterfox.net/waterfox/releases/6.5.2/Linux_x86_64/waterfox-6.5.2.tar.bz2"
-ENV WATERFOX_SIGNATURE="https://www.torproject.org/dist/torbrowser/${TOR_VERSION_X64}/tor-browser-linux64-${TOR_VERSION_X64}_ALL.tar.xz.asc"
 ENV WATERFOX_GPG_KEY="https://download.opensuse.org/repositories/home:/hawkeye116477:/waterfox:/build-depends/xUbuntu_22.04/Release.gpg"
 # arm64 Tor Browser unofficial build
 # Generate Tor onion favicons
@@ -30,8 +29,7 @@ WORKDIR /app
 
 # Download Tor Browser
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
-      curl -sSLO "${WATERFOX_BINARY}" && \
-      curl -sSLO "${WATERFOX_SIGNATURE}";
+      curl -sSLO "${WATERFOX_BINARY}" 
     else \
       echo "CRITICAL: Architecture '${TARGETARCH}' not in [amd64, arm64]" && \
       exit 1; \
@@ -53,11 +51,8 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
       tar --strip 1 -xf "${WATERFOX_BINARY##*/}" && \
       chown -R "${USER_ID}":"${GROUP_ID}" /app && \
-      rm "${WATERFOX_BINARY##*/}" "${WATERFOX_SIGNATURE##*/}"; \
-    elif [ "$TARGETARCH" = "arm64" ]; then \
-      tar --strip 1 -xvJf "${TOR_BINARY_ARM64##*/}" && \
-      chown -R "${USER_ID}":"${GROUP_ID}" /app && \
-      rm "${TOR_BINARY_ARM64##*/}" "${TOR_SIGNATURE_ARM64##*/}"; \
+      rm "${WATERFOX_BINARY##*/}" \
+    elif [ "$TARGETARCH" = "arm64" ]; then \      
     else \
       echo "CRITICAL: Architecture '${TARGETARCH}' not in [amd64, arm64]" && \
       exit 1; \
