@@ -6,9 +6,9 @@
 # Table of Contents
    
 <details><summary>Docker</summary>
-
-- [Docker Compose Script](#Docker-Compose-Script)
+  
 - [Docker Container Commands](#Docker-Container-Commands)
+
 - [Docker Installation](#How-to-install-Docker)
 
 </details>
@@ -43,7 +43,7 @@ Both amd64 and arm64 container runtimes are supported, but only the amd64 image 
 
 See the docker-compose [here](https://github.com/DomiStyle/docker-tor-browser/blob/master/docker-compose.yml) or use this command
 
-    docker run -d -p 5800:5800 domistyle/tor-browser
+    docker run -d -p 5800:5800 --r estart always --name tor domistyle/tor-browser
 
 The web interface will be available on port 5800.
 
@@ -73,24 +73,6 @@ cp mozilla.cfg.template mozilla.cfg
 ## Volumes
 
 It is not recommended to add persistent volumes to your Tor Browser. We do not support any issues that arise from persistent volumes.
-# Docker Compose Script
-```yaml
-version: '3.9'
-
-services:
-  tor:
-    image: domistyle/tor-browser
-    container_name: tor
-    restart: unless-stopped
-    ports:
-      - 5800:5800
-      - 5900:5900
-    environment:
-      DISPLAY_WIDTH: 1920
-      DISPLAY_HEIGHT: 1080
-      KEEP_APP_RUNNING: 1
-      TZ: Europe/Vienna
-```
 
 # Docker Container Commands
  To install tor browser using docker compose, copy and paste the command in your terminal
@@ -114,25 +96,15 @@ or you can do this
 docker rm tor
 ```
 # How to install Docker
-First update all your packages by doing
-```bash
-sudo apt update
+
+### if you don't have curl then just do this
 ```
-After you update all your packages then it is time to install docker.io by doing 
-```bash
-sudo apt install -y docker.io
+sudo apt install curl -y
 ```
-To add systemctl to docker do this
-```bash
-sudo systemctl enable docker --now
+
+### install docker using curl
 ```
-To verify that you docker put the following command below
-```bash
-docker
-```
-To use docker without doing sudo every time do this
-```bash
-sudo usermod -aG docker $USER
+curl -fsSL https://get.docker.com/ | bash
 ```
 
 
@@ -141,10 +113,9 @@ sudo usermod -aG docker $USER
 | Port       | Description                                  |
 |------------|----------------------------------------------|
 | `5800` | Provides a web interface to access the Tor browser |
-| `5900` | Provides direct access to the NoVNC server |
+| `5900` | Provides direct access to the VNC server |
 
 ## Issues And limitations
 
 * shm_size might need to be set to 2GB or more if you experience crashes
-### Github user who updated this markdown:
-[GitXpresso](https://github.com/GitXpresso)
+<!-- nonthing was deleted here 🙄 -->
