@@ -3,7 +3,8 @@ version: '3.9'
 services:
   tor:
     image: domistyle/tor-browser
-    restart: always
+    container_name: tor
+    restart: always # Dont change the restart configuration if you want tor security features to function properly
     ports:
       - 5800:5800
       - 5900:5900

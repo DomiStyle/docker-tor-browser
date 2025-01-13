@@ -1,4 +1,32 @@
-# Tor browser
+# Tor
+<p align="center">
+  <img width="300px" src="https://upload.wikimedia.org/wikipedia/commons/8/8f/Tor_project_logo_hq.png">
+</p
+
+# Table of Contents
+   
+<details><summary>Docker</summary>
+  
+- [Docker Container Commands](#Docker-Container-Commands)
+
+- [Docker Installation](#How-to-install-Docker)
+
+</details>
+   
+<details><summary>Configuration</summary>
+
+- [Platform configuration](#Platform-configuration)
+- [Browser configuration](#Browser-configuration)
+ 
+</details>
+
+<details><summary>Others</summary>
+   
+- [Volumes](#Volumes)
+- [Port](#Port)
+- [Issues And limitations](#Issues-And-limitations)
+
+</details>
 
 ![](https://github.com/DomiStyle/docker-tor-browser/raw/master/screenshot.png)
 *Tor browser running inside of Firefox*
@@ -13,9 +41,9 @@ Both amd64 and arm64 container runtimes are supported, but only the amd64 image 
 
 # Usage
 
-See the docker-compose [here](https://github.com/DomiStyle/docker-tor-browser/blob/master/docker-compose.yml) or use this command:
+See the docker-compose [here](https://github.com/DomiStyle/docker-tor-browser/blob/master/docker-compose.yml) or use this command
 
-    docker run -d -p 5800:5800 domistyle/tor-browser
+    docker run -d -p 5800:5800 --r estart always --name tor domistyle/tor-browser
 
 The web interface will be available on port 5800.
 
@@ -46,13 +74,48 @@ cp mozilla.cfg.template mozilla.cfg
 
 It is not recommended to add persistent volumes to your Tor Browser. We do not support any issues that arise from persistent volumes.
 
-## Ports
+# Docker Container Commands
+ To install tor browser using docker compose, copy and paste the command in your terminal
+```bash
+docker compose up
+```
+To stop the docker container do
+```bash
+docker stop tor
+```
+To start the container again, put the following command below and paste it in your terminal 
+```bash
+docker start tor
+```
+To remove the container you can do 
+```bash
+docker compose down
+```
+or you can do this
+``` 
+docker rm tor
+```
+# How to install Docker
+
+### if you don't have curl then just do this
+```
+sudo apt install curl -y
+```
+
+### install docker using curl
+```
+curl -fsSL https://get.docker.com/ | bash
+```
+
+
+## Port
 
 | Port       | Description                                  |
 |------------|----------------------------------------------|
 | `5800` | Provides a web interface to access the Tor browser |
 | `5900` | Provides direct access to the VNC server |
 
-## Issues & limitations
+## Issues And limitations
 
 * shm_size might need to be set to 2GB or more if you experience crashes
+<!-- nonthing was deleted here 🙄 -->
