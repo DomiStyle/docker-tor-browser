@@ -1,7 +1,0 @@
-// Any comment. You must start the file with a comment!
-
-// pref = Allowed to be changed by user
-// lockPref = Not allowed to be changed by user
-
-pref("javascript.enabled", false);
-lockPref("network.proxy.no_proxies_on", "192.168.0.0/24");
