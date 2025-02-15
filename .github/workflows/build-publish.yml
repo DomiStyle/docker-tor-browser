@@ -61,11 +61,12 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          platforms: linux/amd64, linux/arm64
+          #platforms: linux/amd64, linux/arm64
+          platforms: linux/amd64
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/tor-browser:${{ env.VERSION_X64 }}
-            ${{ secrets.DOCKERHUB_USERNAME }}/tor-browser:arm64-${{ env.VERSION_ARM64 }}
+            # ${{ secrets.DOCKERHUB_USERNAME }}/tor-browser:arm64-${{ env.VERSION_ARM64 }}
             ${{ secrets.DOCKERHUB_USERNAME }}/tor-browser:latest
             ghcr.io/domistyle/docker-tor-browser:${{ env.VERSION_X64 }}
-            ghcr.io/domistyle/docker-tor-browser:arm64-${{ env.VERSION_ARM64 }}
+            # ghcr.io/domistyle/docker-tor-browser:arm64-${{ env.VERSION_ARM64 }}
             ghcr.io/domistyle/docker-tor-browser:latest
