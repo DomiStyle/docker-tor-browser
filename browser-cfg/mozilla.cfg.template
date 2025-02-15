@@ -1,7 +1,21 @@
-// Any comment. You must start the file with a comment!
-
+// Docker Tor Browser - useful overrides to the Tor Browser defaults
+//
 // pref = Allowed to be changed by user
 // lockPref = Not allowed to be changed by user
+//
 
+// Start with Javascript disabled by default
 pref("javascript.enabled", false);
-lockPref("network.proxy.no_proxies_on", "192.168.0.0/24");
+
+// Check certs
+lockPref("security.default_personal_cert", "Ask Every Time");
+
+// Add tracking protection
+lockPref("privacy.trackingprotection.enabled", true);
+
+// Browsing safety option: 1 = safest
+lockPref("browser.security_level.security_slider", 1);
+
+// Bypass Tor network for local addresses
+// lockPref("network.proxy.no_proxies_on", "192.168.0.0/24");
+

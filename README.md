@@ -1,6 +1,5 @@
 # Tor browser
-
-![](https://github.com/DomiStyle/docker-tor-browser/raw/master/screenshot.png)
+![](https://github.com/DomiStyle/docker-tor-browser/blob/master/screenshot.png)
 *Tor browser running inside of Firefox*
 
 ## About
