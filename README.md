@@ -12,7 +12,30 @@ Both amd64 and arm64 container runtimes are supported, but only the amd64 image 
 
 # Usage
 
-See the docker-compose [here](https://github.com/DomiStyle/docker-tor-browser/blob/master/docker-compose.yml) or use this command:
+This installations uses [docker composer](https://github.com/DomiStyle/docker-tor-browser/blob/master/docker-compose.yml) to orchestratethe container.
+We have prepared a couple of helpers for you.
+
+To build:
+
+   bin/build
+
+To run:
+
+    bin/up
+
+and when you are donw:
+
+    bin/down
+
+If you'd like to enter the shell of the running container:
+
+    bin/shell
+
+Curl over tor (under shell inside docker):
+
+    torcurl --remote-name https://raw.githubusercontent.com/DomiStyle/docker-tor-browser/refs/heads/master/README.md
+
+If you're like to run it by hand:
 
     docker run -d -p 5800:5800 domistyle/tor-browser
 

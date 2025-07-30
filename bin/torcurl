@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "warning: curl currently uses --insecure" >&2
+curl --insecure --socks5-hostname localhost:9150 $@

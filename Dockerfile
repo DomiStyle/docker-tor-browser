@@ -90,6 +90,7 @@ COPY --from=builder /opt/noVNC/index.html /opt/noVNC/index.html
 
 COPY browser-cfg /browser-cfg
 COPY startapp.sh /startapp.sh
+COPY --chmod=0755 bin/torcurl /usr/bin/torcurl
 
 EXPOSE 5800
 EXPOSE 5900
