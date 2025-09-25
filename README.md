@@ -1,6 +1,6 @@
 # Tor browser
-
-<img width="1919" height="893" alt="image" src="https://github.com/user-attachments/assets/839ee12d-ffea-4391-a2d8-d8dc4c2bc22c" />
+![](https://github.com/DomiStyle/docker-tor-browser/blob/master/screenshot.png)
+*Tor browser running inside of Firefox*
 
 ## About
 
