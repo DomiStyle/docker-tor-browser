@@ -35,9 +35,8 @@ jobs:
       - name: Check for newer arm64 Tor Browser release
         run: |
           latest=$( \
-            curl -sSl https://sourceforge.net/projects/tor-browser-ports/best_release.json | \
-            jq -r '.["release"]["filename"]' | \
-            awk -F / '{ print $2 }' \
+            curl -sSl https://aus1.torproject.org/torbrowser/update_3/alpha/download-linux-aarch64.json | \
+            jq -r '.["version"]' \
           )
           current=$(awk -F '=' '/TOR_VERSION_ARM64/{print $NF; exit}' Dockerfile | tr -d '"')
           dpkg --compare-versions $latest gt $current && update=0 || update=1

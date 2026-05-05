@@ -4,7 +4,7 @@ FROM jlesage/baseimage-gui:ubuntu-22.04-v4 AS builder
 ARG LOCALE="en-US"
 
 ENV TOR_VERSION_X64="15.0.11"
-ENV TOR_VERSION_ARM64="13.0.9"
+ENV TOR_VERSION_ARM64="16.0a5"
 
 # automatic; passed in by Docker buildx
 ARG TARGETARCH
@@ -13,11 +13,11 @@ ENV TOR_BINARY_X64="https://www.torproject.org/dist/torbrowser/${TOR_VERSION_X64
 ENV TOR_SIGNATURE_X64="https://www.torproject.org/dist/torbrowser/${TOR_VERSION_X64}/tor-browser-linux-x86_64-${TOR_VERSION_X64}.tar.xz.asc"
 ENV TOR_GPG_KEY_X64="https://openpgpkey.torproject.org/.well-known/openpgpkey/torproject.org/hu/kounek7zrdx745qydx6p59t9mqjpuhdf"
 ENV TOR_FINGERPRINT_X64="0xEF6E286DDA85EA2A4BA7DE684E2C6E8793298290"
-# arm64 Tor Browser unofficial build
-ENV TOR_BINARY_ARM64="https://sourceforge.net/projects/tor-browser-ports/files/${TOR_VERSION_ARM64}/tor-browser-linux-arm64-${TOR_VERSION_ARM64}.tar.xz"
-ENV TOR_SIGNATURE_ARM64="https://sourceforge.net/projects/tor-browser-ports/files/${TOR_VERSION_ARM64}/tor-browser-linux-arm64-${TOR_VERSION_ARM64}.tar.xz.asc"
-ENV TOR_GPG_KEY_ARM64="https://h-lindholm.net/pubkey"
-ENV TOR_FINGERPRINT_ARM64="0x24F141A3B988B6C350B937586AF15D1E45FDCEC9"
+# arm64 Tor Browser official build
+ENV TOR_BINARY_ARM64="https://www.torproject.org/dist/torbrowser/${TOR_VERSION_ARM64}/tor-browser-linux-aarch64-${TOR_VERSION_ARM64}.tar.xz"
+ENV TOR_SIGNATURE_ARM64="https://www.torproject.org/dist/torbrowser/${TOR_VERSION_ARM64}/tor-browser-linux-aarch64-${TOR_VERSION_ARM64}.tar.xz.asc"
+ENV TOR_GPG_KEY_ARM64="https://openpgpkey.torproject.org/.well-known/openpgpkey/torproject.org/hu/kounek7zrdx745qydx6p59t9mqjpuhdf"
+ENV TOR_FINGERPRINT_ARM64="0xEF6E286DDA85EA2A4BA7DE684E2C6E8793298290"
 
 # Generate Tor onion favicons
 ENV ONION_ICON_URL="https://raw.githubusercontent.com/DomiStyle/docker-tor-browser/master/icon.png"
