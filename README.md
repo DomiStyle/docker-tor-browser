@@ -8,11 +8,11 @@ This image allows running a [Tor browser](https://www.torproject.org/) instance 
 
 Container is based on [baseimage-gui](https://github.com/jlesage/docker-baseimage-gui) by [jlesage](https://github.com/jlesage)
 
-Both amd64 and arm64 container runtimes are supported, but only the amd64 image uses an official build of the Tor Browser. The arm64 image uses an [unofficial build via tor-browser-ports](https://sourceforge.net/projects/tor-browser-ports/) because the Tor Project does not have an official arm build of the Tor Browser. Both the official and unofficial builds are signed, and the signatures are verified when building this container.
+Both amd64 and arm64 (aarch64) container runtimes are supported. Both builds are signed, and the signatures are verified when building this container.
 
 # Usage
 
-See the docker-compose [here](https://github.com/DomiStyle/docker-tor-browser/blob/master/docker-compose.yml) or use this command:
+See the [docker-compose](https://github.com/DomiStyle/docker-tor-browser/blob/master/docker-compose.yml) or use this command:
 
     docker run -d -p 5800:5800 domistyle/tor-browser
 
@@ -29,7 +29,7 @@ No special configuration is necessary, however some recommended variables are av
 | `KEEP_APP_RUNNING` | Automatically restarts the Tor browser if it exits | ``0`` | No |
 | `TZ` | Set the time zone for the container | - | No |
 
-** For advanced configuration options please take a look [here](https://github.com/jlesage/docker-baseimage-gui#environment-variables).**
+** For advanced configuration options please take a look at the [jlesage baseimage environment variable documentation](https://github.com/jlesage/docker-baseimage-gui#environment-variables).**
 
 ## Browser configuration
 
@@ -51,6 +51,19 @@ It is not recommended to add persistent volumes to your Tor Browser. We do not s
 |------------|----------------------------------------------|
 | `5800` | Provides a web interface to access the Tor browser |
 | `5900` | Provides direct access to the VNC server |
+| `9150` | SOCK5 Proxy (not exposed by default) |
+
+
+## Using Curl
+
+Under the Tor Browser there is a SOCK5 proxy which may be use separately. You can EXPOSE port 9150 in [docker-compose.yml] to use the proxy externally or use it inside the container, like so:
+
+```
+docker compose exec tor_browser /bin/bash
+curl --socks5-hostname localhost:9150 https://...
+```
+
+Many Tor sites have broken or out-of-date SSL certificates on their web site, so if you want to ignore those errors then add **--insecure** to the `curl` command.
 
 ## Issues & limitations
 
