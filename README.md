@@ -12,7 +12,7 @@ Both amd64 and arm64 (aarch64) container runtimes are supported. Both builds are
 
 # Usage
 
-See the [docker-compose](https://github.com/DomiStyle/docker-tor-browser/blob/master/docker-compose.yml) or use this command:
+The container is available on [Docker Hub](https://hub.docker.com/r/domistyle/tor-browser/tags). See the [docker-compose](https://github.com/DomiStyle/docker-tor-browser/blob/master/docker-compose.yml) or use this command:
 
     docker run -d -p 5800:5800 domistyle/tor-browser
 
