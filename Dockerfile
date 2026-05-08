@@ -4,7 +4,7 @@ FROM jlesage/baseimage-gui:ubuntu-22.04-v4 AS builder
 ARG LOCALE="en-US"
 
 ENV TOR_VERSION_X64="15.0.13"
-ENV TOR_VERSION_ARM64="16.0a5"
+ENV TOR_VERSION_ARM64="16.0a6"
 
 # automatic; passed in by Docker buildx
 ARG TARGETARCH
