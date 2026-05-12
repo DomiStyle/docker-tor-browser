@@ -19,10 +19,6 @@ ENV TOR_SIGNATURE_ARM64="https://www.torproject.org/dist/torbrowser/${TOR_VERSIO
 ENV TOR_GPG_KEY_ARM64="https://openpgpkey.torproject.org/.well-known/openpgpkey/torproject.org/hu/kounek7zrdx745qydx6p59t9mqjpuhdf"
 ENV TOR_FINGERPRINT_ARM64="0xEF6E286DDA85EA2A4BA7DE684E2C6E8793298290"
 
-# Generate Tor onion favicons
-ENV ONION_ICON_URL="https://raw.githubusercontent.com/DomiStyle/docker-tor-browser/master/icon.png"
-RUN install_app_icon.sh "${ONION_ICON_URL}"
-
 ARG DEBIAN_FRONTEND="noninteractive"
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
@@ -32,6 +28,10 @@ RUN apt-get update \
     gpg \
     xz-utils \
   && rm -rf /var/lib/apt/lists/*
+
+# Generate Tor onion favicons (needs curl)
+ENV ONION_ICON_URL="https://raw.githubusercontent.com/DomiStyle/docker-tor-browser/master/icon.png"
+RUN install_app_icon.sh "${ONION_ICON_URL}"
 
 
 WORKDIR /app
