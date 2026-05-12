@@ -4,7 +4,7 @@ FROM jlesage/baseimage-gui:ubuntu-22.04-v4 AS builder
 ARG LOCALE="en-US"
 
 ENV TOR_VERSION_X64="15.0.13"
-ENV TOR_VERSION_ARM64="16.0a6"
+ENV TOR_VERSION_ARM64="16.0a5"
 
 # automatic; passed in by Docker buildx
 ARG TARGETARCH
@@ -47,19 +47,24 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
       du -sh "${TOR_BINARY_X64##*/}" "${TOR_SIGNATURE_X64##*/}" && \
       echo "Installing Tor Browser for amd64" && \
       tar --strip 1 -xvJf "${TOR_BINARY_X64##*/}" && \
-      chown -R "${USER_ID}":"${GROUP_ID}" /app && \
+      chown -R "${USER_ID}:${GROUP_ID}" /app && \
       rm "${TOR_BINARY_X64##*/}" "${TOR_SIGNATURE_X64##*/}"; \
     elif [ "$TARGETARCH" = "arm64" ]; then \
+      set -x && \
       echo "Downloading Tor Browser for arm64" && \
       curl -sSLO "${TOR_BINARY_ARM64}" && \
       curl -sSLO "${TOR_SIGNATURE_ARM64}" && \
       echo "Verifying GPG signature for arm64" && \
       curl -sSL "${TOR_GPG_KEY_ARM64}" | gpg --import - && \
+      echo "export fingerprint" && \
       gpg --output ./tor.keyring --export "${TOR_FINGERPRINT_ARM64}" && \
+      echo "verify file" && \
       gpgv --keyring ./tor.keyring "${TOR_SIGNATURE_ARM64##*/}" "${TOR_BINARY_ARM64##*/}" && \
+      echo "show files" && \
+      du -sh "${TOR_BINARY_ARM64##*/}" "${TOR_SIGNATURE_ARM64##*/}" && \
       echo "Installing Tor Browser for arm64" && \
       tar --strip 1 -xvJf "${TOR_BINARY_ARM64##*/}" && \
-      chown -R "${USER_ID}":"${GROUP_ID}" /app && \
+      chown -R "${USER_ID}:${GROUP_ID}" /app && \
       rm "${TOR_BINARY_ARM64##*/}" "${TOR_SIGNATURE_ARM64##*/}"; \
     else \
       echo "CRITICAL: Architecture '${TARGETARCH}' not in [amd64, arm64]" && \
