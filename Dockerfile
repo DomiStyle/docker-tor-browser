@@ -138,6 +138,14 @@ COPY --from=builder /opt/noVNC/index.html /opt/noVNC/index.html
 # falls back to matching type="normal", which applies the main-window rule
 # (undecorated, maximized, layer below) to *every* window, leaving VLC and
 # xterm stuck fullscreen and unresizable.
+# Give the 'app' user a real shell and a home directory, so a terminal opened
+# from the desktop menu starts bash in /app rather than sh in /.
+COPY cont-init/11-app-user.sh /etc/cont-init.d/11-app-user.sh
+# Docker defaults HOME to "/" for the container, and internal (cont-env.d)
+# variables do not override one that is already set, so this has to be an ENV.
+# Tor Browser sets its own HOME (/app/Browser) at launch and is unaffected.
+ENV HOME="/app"
+
 COPY openbox/main-window-selection.xml /etc/openbox/main-window-selection.xml
 COPY openbox/menu.xml /opt/base/etc/openbox/menu.xml
 RUN sed-patch 's|<context name="Root">|<context name="Root">\n    <mousebind button="Right" action="Press"><action name="ShowMenu"><menu>root-menu</menu></action></mousebind>|' \

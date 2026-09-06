@@ -23,7 +23,7 @@ The web interface will be available on port 5800.
 Right-click anywhere on the desktop background to open a menu with:
 
   - **VLC media player** - plays the major video and audio formats
-  - **Terminal** - an xterm shell inside the container
+  - **Terminal** - an xterm bash shell inside the container, starting in `/app`
 
 Audio from any of these is streamed to the browser when `WEB_AUDIO` is enabled.
 
