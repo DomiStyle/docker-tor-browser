@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   tor:
-    image: domistyle/tor-browser
+    image: domistyle/tor-browser-av
     restart: always
     ports:
       - 5800:5800
@@ -11,4 +11,5 @@ services:
       DISPLAY_WIDTH: 1920
       DISPLAY_HEIGHT: 1080
       KEEP_APP_RUNNING: 1
+      WEB_AUDIO: 1
       TZ: Europe/Vienna

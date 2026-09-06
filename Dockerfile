@@ -20,6 +20,18 @@ ENV TOR_GPG_KEY_ARM64="https://openpgpkey.torproject.org/.well-known/openpgpkey/
 ENV TOR_FINGERPRINT_ARM64="0xEF6E286DDA85EA2A4BA7DE684E2C6E8793298290"
 
 ARG DEBIAN_FRONTEND="noninteractive"
+# The base image points /etc/passwd, /etc/group, /etc/shadow, /run and /var/log
+# at locations that only exist once the container starts. Package maintainer
+# scripts that add a system user/group or write to /run or /var/log therefore
+# fail during the build (here: imagemagick -> fontconfig). Materialise the
+# paths; this stage is discarded, so nothing needs restoring.
+RUN mkdir -p /tmp/run /config/log /config/var/tmp \
+  && rm -f /etc/passwd /etc/group /etc/shadow \
+  && cp /usr/share/base-passwd/passwd.master /etc/passwd \
+  && cp /usr/share/base-passwd/group.master /etc/group \
+  && touch /etc/shadow \
+  && chmod 640 /etc/shadow
+
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
     ca-certificates \
@@ -78,8 +90,22 @@ ENV APP_NAME="Tor Browser"
 
 ENV show_output=1
 
+# Stream the application's audio to the browser (noVNC only, not VNC clients).
+ENV WEB_AUDIO=1
+
 ARG DEBIAN_FRONTEND="noninteractive"
-RUN apt-get update \
+# Same base image path problem as the builder stage. dbus-x11 is listed
+# explicitly to satisfy libgtk-3-0's "default-dbus-session-bus | dbus-session-bus"
+# dependency: without it apt selects dbus-user-session, which drags in systemd,
+# whose postinst cannot run in this image. The symlinks are restored afterwards
+# so the base image's runtime user setup still works.
+RUN mkdir -p /tmp/run /config/log /config/var/tmp \
+  && rm -f /etc/passwd /etc/group /etc/shadow \
+  && cp /usr/share/base-passwd/passwd.master /etc/passwd \
+  && cp /usr/share/base-passwd/group.master /etc/group \
+  && touch /etc/shadow \
+  && chmod 640 /etc/shadow \
+  && apt-get update \
   && apt-get install -y --no-install-recommends \
     file \
     libdbus-glib-1-2 \
@@ -87,11 +113,35 @@ RUN apt-get update \
     libx11-xcb1 \
     libxt6 \
     libasound2 \
-  && rm -rf /var/lib/apt/lists/*
+    libpulse0 \
+    dbus-x11 \
+    vlc \
+    xterm \
+  && rm -rf /var/lib/apt/lists/* \
+  && rm -f /etc/passwd /etc/group /etc/shadow \
+  && ln -s /tmp/.passwd /etc/passwd \
+  && ln -s /tmp/.group /etc/group \
+  && ln -s /tmp/.shadow /etc/shadow \
+  && rm -rf /tmp/run /config/log /config/var
 
 COPY --from=builder /app /app
 COPY --from=builder /opt/noVNC/app/images/icons/* /opt/noVNC/app/images/icons/
 COPY --from=builder /opt/noVNC/index.html /opt/noVNC/index.html
+
+# Openbox root menu, for launching VLC and a terminal alongside the browser.
+# The baseimage ships an empty menu.xml and an empty "Root" mouse context, so
+# the menu needs both a definition and a right-click binding. rc.xml is
+# regenerated from this template on every start, so the template is patched
+# rather than the generated file. sed-patch fails the build if the expression
+# matches nothing, which catches the anchor disappearing in a future baseimage.
+# Identify the browser as the "main" window. Without this file the baseimage
+# falls back to matching type="normal", which applies the main-window rule
+# (undecorated, maximized, layer below) to *every* window, leaving VLC and
+# xterm stuck fullscreen and unresizable.
+COPY openbox/main-window-selection.xml /etc/openbox/main-window-selection.xml
+COPY openbox/menu.xml /opt/base/etc/openbox/menu.xml
+RUN sed-patch 's|<context name="Root">|<context name="Root">\n    <mousebind button="Right" action="Press"><action name="ShowMenu"><menu>root-menu</menu></action></mousebind>|' \
+      /opt/base/etc/openbox/rc.xml.template
 
 COPY browser-cfg /browser-cfg
 COPY startapp.sh /startapp.sh

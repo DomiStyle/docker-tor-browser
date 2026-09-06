@@ -18,6 +18,15 @@ The container is available on [Docker Hub](https://hub.docker.com/r/domistyle/to
 
 The web interface will be available on port 5800.
 
+## Launching other applications
+
+Right-click anywhere on the desktop background to open a menu with:
+
+  - **VLC media player** - plays the major video and audio formats
+  - **Terminal** - an xterm shell inside the container
+
+Audio from any of these is streamed to the browser when `WEB_AUDIO` is enabled.
+
 ## Platform configuration
 
 No special configuration is necessary, however some recommended variables are available:
@@ -27,6 +36,7 @@ No special configuration is necessary, however some recommended variables are av
 | `DISPLAY_WIDTH` | Set the width of the virtual screen | ``1280`` | No |
 | `DISPLAY_HEIGHT` | Set the height of the virtual screen | ``768`` | No |
 | `KEEP_APP_RUNNING` | Automatically restarts the Tor browser if it exits | ``0`` | No |
+| `WEB_AUDIO` | Stream audio to the browser over the web interface. Not available to VNC clients on port 5900. | ``1`` | No |
 | `TZ` | Set the time zone for the container | - | No |
 
 ** For advanced configuration options please take a look at the [jlesage baseimage environment variable documentation](https://github.com/jlesage/docker-baseimage-gui#environment-variables).**

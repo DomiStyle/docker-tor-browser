@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openbox_menu xmlns="http://openbox.org/3.4/menu">
+
+  <menu id="root-menu" label="Applications">
+    <!-- VLC's metadata lookups and update checks would go out directly rather
+         than through Tor, so they are disabled along with the first-run dialog
+         that offers to enable them. -->
+    <item label="VLC media player">
+      <action name="Execute">
+        <execute>vlc --no-qt-privacy-ask --no-metadata-network-access</execute>
+      </action>
+    </item>
+    <item label="Terminal">
+      <action name="Execute">
+        <execute>xterm</execute>
+      </action>
+    </item>
+  </menu>
+
+</openbox_menu>
