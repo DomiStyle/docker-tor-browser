@@ -117,6 +117,8 @@ RUN mkdir -p /tmp/run /config/log /config/var/tmp \
     dbus-x11 \
     vlc \
     xterm \
+    curl \
+    ca-certificates \
   && rm -rf /var/lib/apt/lists/* \
   && rm -f /etc/passwd /etc/group /etc/shadow \
   && ln -s /tmp/.passwd /etc/passwd \
@@ -128,31 +130,31 @@ COPY --from=builder /app /app
 COPY --from=builder /opt/noVNC/app/images/icons/* /opt/noVNC/app/images/icons/
 COPY --from=builder /opt/noVNC/index.html /opt/noVNC/index.html
 
-# Openbox root menu, for launching VLC and a terminal alongside the browser.
-# The baseimage ships an empty menu.xml and an empty "Root" mouse context, so
-# the menu needs both a definition and a right-click binding. rc.xml is
-# regenerated from this template on every start, so the template is patched
-# rather than the generated file. sed-patch fails the build if the expression
-# matches nothing, which catches the anchor disappearing in a future baseimage.
-# Identify the browser as the "main" window. Without this file the baseimage
-# falls back to matching type="normal", which applies the main-window rule
-# (undecorated, maximized, layer below) to *every* window, leaving VLC and
-# xterm stuck fullscreen and unresizable.
-# Give the 'app' user a real shell and a home directory, so a terminal opened
-# from the desktop menu starts bash in /app rather than sh in /.
-COPY cont-init/11-app-user.sh /etc/cont-init.d/11-app-user.sh
+# Everything under fs/ mirrors the container filesystem and is copied into
+# place in a single step:
+#
+#   browser-cfg                    Tor Browser preference overrides
+#   etc/cont-init.d                startup hooks run by the baseimage
+#   etc/openbox                    identifies the browser as the "main" window,
+#                                  so only it gets the undecorated, maximized
+#                                  treatment and other windows stay resizable
+#   opt/base/etc/openbox/menu.xml  desktop right-click menu
+#   usr/local/bin                  torcurl / torcurli helpers
+#   startapp.sh                    launches the supervised application
+COPY fs/ /
+
+# The right-click menu needs a binding as well as a definition, because the
+# baseimage leaves the "Root" mouse context empty. rc.xml is regenerated from
+# this template on every start, so the template is patched rather than the
+# generated file. sed-patch fails the build if the expression matches nothing,
+# which catches the anchor disappearing in a future baseimage.
+RUN sed-patch 's|<context name="Root">|<context name="Root">\n    <mousebind button="Right" action="Press"><action name="ShowMenu"><menu>root-menu</menu></action></mousebind>|' \
+      /opt/base/etc/openbox/rc.xml.template
+
 # Docker defaults HOME to "/" for the container, and internal (cont-env.d)
 # variables do not override one that is already set, so this has to be an ENV.
 # Tor Browser sets its own HOME (/app/Browser) at launch and is unaffected.
 ENV HOME="/app"
-
-COPY openbox/main-window-selection.xml /etc/openbox/main-window-selection.xml
-COPY openbox/menu.xml /opt/base/etc/openbox/menu.xml
-RUN sed-patch 's|<context name="Root">|<context name="Root">\n    <mousebind button="Right" action="Press"><action name="ShowMenu"><menu>root-menu</menu></action></mousebind>|' \
-      /opt/base/etc/openbox/rc.xml.template
-
-COPY browser-cfg /browser-cfg
-COPY startapp.sh /startapp.sh
 
 EXPOSE 5800
 EXPOSE 5900

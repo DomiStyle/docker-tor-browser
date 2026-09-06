@@ -1,0 +1,3 @@
+#!/bin/bash
+
+curl --insecure --socks5-hostname localhost:9150 $@
