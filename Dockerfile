@@ -3,7 +3,7 @@ FROM jlesage/baseimage-gui:ubuntu-22.04-v4 AS builder
 
 ARG LOCALE="en-US"
 
-ENV TOR_VERSION_X64="15.0.22"
+ENV TOR_VERSION_X64="15.0.23"
 ENV TOR_VERSION_ARM64="16.0a11"
 
 # automatic; passed in by Docker buildx
